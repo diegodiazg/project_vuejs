@@ -8,7 +8,6 @@
             <div class="icon-block">
               <h2 class="center brown-text"><i class="material-icons">flash_on</i></h2>
               <h5 class="center">Speeds up development</h5>
-
               <p class="light">We did most of the heavy lifting for you to provide a default stylings that incorporate our custom components. Additionally, we refined animations and transitions to provide a smoother experience for developers.</p>
             </div>
           </div>
@@ -76,20 +75,3 @@ export default {
 }
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-  .icon-block {
-    padding: 0 15px;
-  }
-  .icon-block .material-icons {
-    font-size: inherit;
-  }
-
-  p {
-    line-height: 2rem;
-  }
-
-  .button-collapse {
-    color: #26a69a;
-  }
-
-</style>

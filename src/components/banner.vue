@@ -11,7 +11,6 @@
           <a href="http://materializecss.com/getting-started.html" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">Get Started</a>
         </div>
         <br><br>
-
       </div>
     </div>
     <div class="parallax"><img src="../assets/background1.jpg" alt="Unsplashed background img 1"></div>
@@ -28,8 +27,3 @@ export default {
 }
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-  nav ul a, nav .brand-logo {
-      color: #444;
-  }
-</style>

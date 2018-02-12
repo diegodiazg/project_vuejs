@@ -5,7 +5,6 @@
           <ul class="right hide-on-med-and-down">
             <li><a href="#">Navbar Link</a></li>
           </ul>
-
           <ul id="nav-mobile" class="side-nav">
             <li><a href="#">Navbar Link</a></li>
           </ul>
@@ -23,10 +22,4 @@ export default {
   }
 }
 </script>
-
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-    nav ul a, nav .brand-logo {
-        color: #444;
-    }
-</style>

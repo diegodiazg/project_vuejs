@@ -69,7 +69,22 @@ export default {
   name: 'container',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to Your Vue.js App',
+      products: []
+    }
+  },
+  mounted () {
+    this.get_products()
+  },
+  methods: {
+    get_products () {
+      this.$http.get('http://mmi.tests/api/products', {
+        headers: { Authorization: 'JWT YWRtaW5AYWRtaW4uY29tOnF3ZXJ0eTEyMw==' } }
+      ).then(result => {
+        this.products = result
+      }, error => {
+        console.error(error)
+      })
     }
   }
 }

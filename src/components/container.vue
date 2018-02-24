@@ -41,7 +41,6 @@
     </div>
     <div class="container">
       <div class="section">
-
         <div class="row">
           <div class="col s12 center">
             <h3><i class="mdi-content-send brown-text"></i></h3>
@@ -70,7 +69,8 @@ export default {
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
-      products: []
+      products: [],
+      token: ''
     }
   },
   mounted () {
@@ -78,8 +78,16 @@ export default {
   },
   methods: {
     get_products () {
-      this.$http.get('http://mmi.tests/api/products', {
-        headers: { Authorization: 'JWT YWRtaW5AYWRtaW4uY29tOnF3ZXJ0eTEyMw==' } }
+      this.$http.get('http://mmi.tests/api/products/', {
+        headers: { 'Authorization': 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MTk0NjQ1MzgsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwidXNlcl9pZCI6MSwib3JpZ19pYXQiOjE1MTk0NjA5MzgsInVzZXJuYW1lIjoiYWRtaW5AYWRtaW4uY29tIn0.8T9DGAU8LwoeUrSVHYP4GReKwBxqo08-m0EYpyoofi0' } }
+      ).then(result => {
+        this.products = result
+      }, error => {
+        console.error(error)
+      })
+    },
+    auth_api () {
+      this.$http.post('http://mmi.cdhyt.org/api-token-auth/', {'username': 'admin@admin.com', 'password': 'qwerty123'}
       ).then(result => {
         this.products = result
       }, error => {

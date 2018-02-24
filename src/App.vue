@@ -4,7 +4,6 @@
     <banner></banner>
     <container></container>
     <pie></pie>
-    ${data} data
   </div>
 </template>
 
@@ -16,11 +15,6 @@ import pie from './components/pie'
 
 export default {
   name: 'App',
-  data () {
-    return {
-      data: 'Welcome to Your Vue.js App'
-    }
-  },
   components: { banner, container, pie, top }
 }
 </script>

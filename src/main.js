@@ -16,6 +16,11 @@ import 'material-design-icons/iconfont/material-icons.css'
 Vue.use(VueResources)
 Vue.config.productionTip = false
 
+Vue.http.interceptors.push(
+  function (request) {
+    request.headers.set('Authorization', 'JWT ' + localStorage.getItem('token'))
+  }
+)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

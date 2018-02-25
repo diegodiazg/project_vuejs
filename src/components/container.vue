@@ -4,29 +4,11 @@
       <div class="section">
         <!--   Icon Section   -->
         <div class="row">
-          <div class="col s12 m4">
+          <div class="col s12 m4" v-for="(item, key) in products" :key="key">
             <div class="icon-block">
-              <h2 class="center brown-text"><i class="material-icons">flash_on</i></h2>
-              <h5 class="center">Speeds up development</h5>
-              <p class="light">We did most of the heavy lifting for you to provide a default stylings that incorporate our custom components. Additionally, we refined animations and transitions to provide a smoother experience for developers.</p>
-            </div>
-          </div>
-          <div class="col s12 m4">
-            <div class="icon-block">
-              <h2 class="center brown-text"><i class="material-icons">group</i></h2>
-              <h5 class="center">User Experience Focused</h5>
-
-              <p class="light">By utilizing elements and principles of Material Design, we were able to create a framework that incorporates components and animations that provide more feedback to users. Additionally, a single underlying responsive system across all platforms allow for a more unified user experience.</p>
-            </div>
-          </div>
-          <div class="col s12 m4">
-            <div class="icon-block">
-              <h2 class="center brown-text"><i class="material-icons">settings</i></h2>
-              <h5 class="center">Easy to work with</h5>
-              <p class="light">We have provided detailed documentation as well as specific code examples to help new users get started. We are also always open to feedback and can answer any questions a user may have about Materialize.</p>
-              <ul>
-                  <li v-for="(item, key) in products" :key="key"><img :src="'http://mmi.cdhyt.org/'+item.picture"> {{item.name}}</li>
-              </ul>
+              <h2 class="center brown-text"><img width="200"  height="200" :src="'http://mmi.cdhyt.org/media/'+item.picture"></h2>
+              <h5 class="center">{{item.name}}</h5>
+              <p class="light">{{item.description}}</p>
             </div>
           </div>
         </div>
@@ -77,12 +59,15 @@ export default {
     }
   },
   mounted () {
-    this.get_products()
+    // this.auth_api()
+    this.$store.dispatch('auth_api')
+    this.auth_api()
   },
   methods: {
     get_products () {
-      this.$http.get('http://mmi.tests/api/products/', {
-        headers: { 'Authorization': 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MTk0NjQ1MzgsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwidXNlcl9pZCI6MSwib3JpZ19pYXQiOjE1MTk0NjA5MzgsInVzZXJuYW1lIjoiYWRtaW5AYWRtaW4uY29tIn0.8T9DGAU8LwoeUrSVHYP4GReKwBxqo08-m0EYpyoofi0' } }
+      console.log(this.token)
+      this.$http.get('http://mmi.cdhyt.org/api/products/', {
+        headers: { 'Authorization': 'JWT ' + this.token } }
       ).then(result => {
         this.products = result.body
         console.log(this.products)
@@ -91,9 +76,11 @@ export default {
       })
     },
     auth_api () {
-      this.$http.post('http://mmi.cdhyt.org/api-token-auth/', {'username': 'admin@admin.com', 'password': 'qwerty123'}
+      this.$http.post('http://mmi.cdhyt.org/api-token-auth/', {'email': 'admin@admin.com', 'password': 'qwerty123'}
       ).then(result => {
-        this.products = result
+        this.token = result.body.token
+        console.log(this.token)
+        this.get_products()
       }, error => {
         console.error(error)
       })

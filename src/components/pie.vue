@@ -36,7 +36,7 @@
               </div>
               <div>
                 <v-icon size="18px" class="mr-3">fa-envelope</v-icon>
-                info@example.com
+                info@info.com
               </div>
               <div>
                 <v-icon size="18px" class="mr-3">fa-phone</v-icon>

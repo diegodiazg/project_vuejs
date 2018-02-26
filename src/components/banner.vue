@@ -1,17 +1,17 @@
 <template>
     <div>
-      <v-flex xs12>
+      <v-flex xs12 md12 sm12 lg12 xl12>
        <v-card  class="elevation-0 mb-0" v-for="(item, key) in products"
               :key="key">
          <v-container fluid grid-list-lg>
            <v-layout row >
-             <v-flex xs7>
+             <v-flex xs7 sm7 md7 lg7 xl7>
               <div>
                 <div class="headline">{{item.name}}</div>
                 <div>{{item.collection}}</div>
               </div>
             </v-flex>
-            <v-flex xs5>
+            <v-flex xs5 sm5 md5 lg5 xl5 >
               <v-card-media
                  :src="'http://mmi.cdhyt.org/media/'+item.picture"
                  height="125px"

@@ -3,7 +3,7 @@
    <v-layout column>
         <v-container fluid grid-list-md>
           <v-layout row wrap>
-            <v-flex xs6 >
+            <v-flex xs12 md6>
               <v-card>
                 <v-card-media
                   src="http://mmi.cdhyt.org/media/pictures/2018/02/26/15966251_648255662027906_1137641542797380884_n.jpg"
@@ -30,7 +30,7 @@
                 </v-card-actions>
               </v-card>
             </v-flex>
-            <v-flex xs6 >
+            <v-flex xs12 md6>
               <v-card>
                 <v-card-media
                   src="http://mmi.cdhyt.org/media/pictures/2018/02/26/13710465_564647417055398_6443911425055744152_o.jpg"

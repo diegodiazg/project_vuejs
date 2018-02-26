@@ -3,7 +3,7 @@
    <v-layout column>
         <v-container fluid grid-list-md>
           <v-layout row wrap>
-            <v-flex xs4
+            <v-flex xs12 md4
               v-for="(item, key) in products"
               :key="key">
               <v-card>

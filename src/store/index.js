@@ -16,7 +16,6 @@ const store = new Vuex.Store({
       if (!localStorage.getItem('token')) {
         Vue.http.post('http://mmi.cdhyt.org/api-token-auth/', {'email': 'admin@admin.com', 'password': 'qwerty123'}
         ).then(result => {
-          console.log('storage')
           localStorage.setItem('token', result.body.token)
         }, error => {
           console.error(error)

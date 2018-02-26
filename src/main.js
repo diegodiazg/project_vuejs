@@ -4,6 +4,8 @@ import Vue from 'vue'
 import VueResources from 'vue-resource'
 import App from './App'
 import store from './store'
+import Vuetify from 'vuetify'
+
 // import material from 'materialize-css'
 // import icon from 'material-icons/css/material-icons.css'
 // import jQuery from 'jquery'
@@ -11,10 +13,12 @@ import 'jquery/dist/jquery'
 import router from './router'
 import 'materialize-css/dist/css/materialize.css'
 import 'material-design-icons/iconfont/material-icons.css'
+import 'vuetify/dist/vuetify.min.css'
 
 // Vue.use(material)
 Vue.use(VueResources)
 Vue.config.productionTip = false
+Vue.use(Vuetify)
 
 Vue.http.interceptors.push(
   function (request) {

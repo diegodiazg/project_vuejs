@@ -1,50 +1,39 @@
 <template>
- <div>
-   <div class="container">
-      <div class="section">
-        <!--   Icon Section   -->
-        <div class="row">
-          <div class="col s12 m4" v-for="(item, key) in products" :key="key">
-            <div class="icon-block">
-              <h2 class="center brown-text"><img width="200"  height="200" :src="'http://mmi.cdhyt.org/media/'+item.picture"></h2>
-              <h5 class="center">{{item.name}}</h5>
-              <p class="light">{{item.description}}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="parallax-container valign-wrapper">
-      <div class="section no-pad-bot">
-        <div class="container">
-          <div class="row center">
-            <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
-          </div>
-        </div>
-      </div>
-      <div class="parallax"><img src="../assets/background2.jpg" alt="Unsplashed background img 2"></div>
-    </div>
-    <div class="container">
-      <div class="section">
-        <div class="row">
-          <div class="col s12 center">
-            <h3><i class="mdi-content-send brown-text"></i></h3>
-            <h4>Contact Us </h4>
-            <p class="left-align light">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque id nunc nec volutpat. Etiam pellentesque tristique arcu, non consequat magna fermentum ac. Cras ut ultricies eros. Maecenas eros justo, ullamcorper a sapien id, viverra ultrices eros. Morbi sem neque, posuere et pretium eget, bibendum sollicitudin lacus. Aliquam eleifend sollicitudin diam, eu mattis nisl maximus sed. Nulla imperdiet semper molestie. Morbi massa odio, condimentum sed ipsum ac, gravida ultrices erat. Nullam eget dignissim mauris, non tristique erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="parallax-container valign-wrapper">
-      <div class="section no-pad-bot">
-        <div class="container">
-          <div class="row center">
-            <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
-          </div>
-        </div>
-      </div>
-      <div class="parallax"><img src="../assets/background3.jpg" alt="Unsplashed background img 3"></div>
-    </div>
+  <div>
+   <v-layout column>
+        <v-container fluid grid-list-md>
+          <v-layout row wrap>
+            <v-flex xs4
+              v-for="(item, key) in products"
+              :key="key">
+              <v-card>
+                <v-card-media
+                  :src="'http://mmi.cdhyt.org/media/'+item.picture"
+                  height="400px">
+                </v-card-media>
+                <v-card-title primary-title>
+                  <div>
+                    <div class="headline">{{item.name}}</div>
+                      <span class="grey--text">{{item.brand}} - Q {{item.price_sell|format_number}}</span>
+                  </div>
+                </v-card-title>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn icon>
+                    <v-icon>favorite</v-icon>
+                  </v-btn>
+                  <v-btn icon>
+                    <v-icon>bookmark</v-icon>
+                  </v-btn>
+                  <v-btn icon>
+                    <v-icon>share</v-icon>
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-flex>
+          </v-layout>
+        </v-container>
+  </v-layout>
   </div>
 </template>
 
@@ -65,12 +54,10 @@ export default {
   },
   methods: {
     get_products () {
-      console.log(this.token)
       this.$http.get('http://mmi.cdhyt.org/api/products/', {
         headers: { 'Authorization': 'JWT ' + this.token } }
       ).then(result => {
         this.products = result.body
-        console.log(this.products)
       }, error => {
         console.error(error)
       })
@@ -79,11 +66,16 @@ export default {
       this.$http.post('http://mmi.cdhyt.org/api-token-auth/', {'email': 'admin@admin.com', 'password': 'qwerty123'}
       ).then(result => {
         this.token = result.body.token
-        console.log(this.token)
         this.get_products()
       }, error => {
         console.error(error)
       })
+    }
+  },
+  filters: {
+    format_number: function (value) {
+      if (!value) return ''
+      return isNaN(value) ? 0 : parseFloat(value).toFixed(2)
     }
   }
 }

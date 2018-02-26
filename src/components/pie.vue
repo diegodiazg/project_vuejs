@@ -1,49 +1,82 @@
 <template>
-<div>
-  <footer class="page-footer teal">
-    <div class="container">
-      <div class="row">
-        <div class="col l6 s12">
-          <h5 class="white-text">Company Bio</h5>
-          <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
-        </div>
-        <div class="col l3 s12">
-          <h5 class="white-text">Settings</h5>
-          <ul>
-            <li><a class="white-text" href="#!">Link 1</a></li>
-            <li><a class="white-text" href="#!">Link 2</a></li>
-            <li><a class="white-text" href="#!">Link 3</a></li>
-            <li><a class="white-text" href="#!">Link 4</a></li>
-          </ul>
-        </div>
-        <div class="col l3 s12">
-          <h5 class="white-text">Connect</h5>
-          <ul>
-            <li><a class="white-text" href="#!">Link 1</a></li>
-            <li><a class="white-text" href="#!">Link 2</a></li>
-            <li><a class="white-text" href="#!">Link 3</a></li>
-            <li><a class="white-text" href="#!">Link 4</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="footer-copyright">
-      <div class="container">
-      Made by <a class="brown-text text-lighten-3" href="http://materializecss.com">Materialize</a>
-      </div>
-    </div>
-  </footer>
- </div>
+  <v-footer height="auto">
+    <v-flex xs12 sm12>
+      <v-card >
+        <v-card-title class="red white--text">
+          <strong class="subheading">Get connected with us on social networks!</strong>
+          <v-btn
+            v-for="icon in icons"
+            :key="icon"
+            icon
+            dark
+            class="mx-3"
+          >
+            <v-icon size="24px">{{ icon }}</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-card-text class="blue">
+          <v-layout>
+            <v-flex
+              v-for="(col, i) in rows"
+              :key="i"
+              xs3
+            >
+              <span class="body-2" v-text="col.title.toUpperCase()"/>
+              <div
+                v-for="(child, i) in col.children"
+                :key="i"
+                v-text="child"
+              />
+            </v-flex>
+            <v-flex xs3 layout column>
+              <span class="body-2">CONTACT</span>
+              <div>
+                <v-icon size="18px" class="mr-3">fa-home</v-icon>
+                New York, NY 10012, US
+              </div>
+              <div>
+                <v-icon size="18px" class="mr-3">fa-envelope</v-icon>
+                info@example.com
+              </div>
+              <div>
+                <v-icon size="18px" class="mr-3">fa-phone</v-icon>
+                + 01 234 567 88
+              </div>
+              <div>
+                <v-icon size="18px" class="mr-3">fa-print</v-icon>
+                + 01 234 567 89
+              </div>
+            </v-flex>
+          </v-layout>
+        </v-card-text>
+        <v-card-actions class="yellow justify-center">
+          &copy;2018 — <strong>Mi Moda Internacional</strong>
+        </v-card-actions>
+      </v-card>
+    </v-flex>
+  </v-footer>
 </template>
 
 <script>
 export default {
   name: 'pie',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
-    }
-  }
+  data: () => ({
+    icons: ['fa-facebook', 'fa-twitter', 'fa-google-plus', 'fa-linkedin', 'fa-instagram'],
+    rows: [
+      {
+        title: 'Company Name',
+        children: ['Here you can use rows and columns here to organize your footer content. Lorem ipsum dolor sit amet, consectetur adipisicing elit']
+      },
+      {
+        title: 'Products',
+        children: ['MDBootstrap', 'MDWordPress', 'BrandFlow', 'Bootstrap Angular']
+      },
+      {
+        title: 'Useful Links',
+        children: ['Your account', 'Become an Affiliate', 'Shipping Rates', 'Helper']
+      }
+    ]
+  })
 }
 </script>
 

@@ -15,7 +15,9 @@
         <v-toolbar-side-icon class='white--text'></v-toolbar-side-icon>
         <v-toolbar-title>Title</v-toolbar-title>
           <v-spacer></v-spacer>
+          <v-text-field class='white--text' prepend-icon="search" hide-details single-line></v-text-field>
           <v-toolbar-items class="hidden-sm-and-down white--text">
+            <cart></cart>
             <v-btn flat class='white--text'>Link One</v-btn>
             <v-btn flat class='white--text'>Link Two</v-btn>
             <v-btn flat class='white--text'>Link Three</v-btn>
@@ -56,10 +58,11 @@ import container from './components/container'
 import banner from './components/banner'
 import offert from './components/offert'
 import pie from './components/pie'
+import cart from './components/cart'
 
 export default {
   name: 'App',
-  components: { container, banner, offert, pie }
+  components: { container, banner, offert, pie, cart }
 }
 </script>
 

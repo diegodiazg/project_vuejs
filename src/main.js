@@ -11,8 +11,8 @@ import Vuetify from 'vuetify'
 // import jQuery from 'jquery'
 import 'jquery/dist/jquery'
 import router from './router'
-import 'materialize-css/dist/css/materialize.css'
-import 'material-design-icons/iconfont/material-icons.css'
+// import 'materialize-css/dist/css/materialize.css'
+// import 'material-design-icons/iconfont/material-icons.css'
 import 'vuetify/dist/vuetify.min.css'
 
 // Vue.use(material)

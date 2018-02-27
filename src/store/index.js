@@ -8,7 +8,9 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     toke: '',
-    language_accept: 'es'
+    language_accept: 'es',
+    cart: [],
+    wishlists: []
   },
   getters: {},
   actions: {
@@ -21,11 +23,19 @@ const store = new Vuex.Store({
           console.error(error)
         })
       }
+    },
+    get_car_item () {
+      if (!localStorage.getItem('cart')) {
+        return this.state.cart
+      }
     }
   },
   mutations: {
     toke: state => {
       return state.toke
+    },
+    set_cart (state, newItem) {
+      state.cart = newItem
     }
   }
 })

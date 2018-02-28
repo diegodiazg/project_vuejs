@@ -1,16 +1,6 @@
 <template>
   <div id="App">
     <v-app>
-      <div class="row gray">
-      <div class="col md6 pull-md12">
-        <div class="col s12 md10">(502) 78945612</div>
-        <div class="col s12 md2">Español</div>
-      </div>
-      <div class="col md6 push-md12">
-        <div class="col s12 md6">Acceder</div>
-        <div class="col s12 md6">Servicio</div>
-      </div>
-      </div>
       <v-toolbar color='red' class='white--text'>
         <v-toolbar-side-icon class='white--text'></v-toolbar-side-icon>
         <v-toolbar-title>Title</v-toolbar-title>
@@ -18,11 +8,12 @@
           <v-text-field class='white--text' prepend-icon="search" hide-details single-line></v-text-field>
           <v-toolbar-items class="hidden-sm-and-down white--text">
             <cart></cart>
-            <v-btn flat class='white--text'>Link One</v-btn>
-            <v-btn flat class='white--text'>Link Two</v-btn>
+            <router-link to="/checkout" append>Checkout</router-link>
+            <v-btn flat class='white--text'><router-link to="/" append>Home</router-link></v-btn>
             <v-btn flat class='white--text'>Link Three</v-btn>
           </v-toolbar-items>
       </v-toolbar>
+      <router-view></router-view>
       <div>
         <img src="http://mmi.cdhyt.org/media/pictures/2018/02/25/logo_jDztL3K.png">
       </div>

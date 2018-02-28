@@ -22,8 +22,8 @@
                   <v-btn icon>
                     <v-icon>favorite</v-icon>
                   </v-btn>
-                  <v-btn icon>
-                    <v-icon>bookmark</v-icon>
+                  <v-btn icon @click="add_item_cart(key, item)">
+                    <v-icon>shopping_cart</v-icon>
                   </v-btn>
                   <v-btn icon>
                     <v-icon>share</v-icon>
@@ -38,13 +38,16 @@
 </template>
 
 <script>
+import sharing from './sharing'
+
 export default {
   name: 'container',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
       products: [],
-      token: ''
+      token: '',
+      components: { 'sharing': sharing }
     }
   },
   mounted () {
@@ -69,6 +72,12 @@ export default {
         this.get_products()
       }, error => {
         console.error(error)
+      })
+    },
+    add_item_cart (index, model) {
+      this.items = this.$store.dispatch('add_item_cart', {
+        index,
+        model
       })
     }
   },

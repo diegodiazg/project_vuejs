@@ -5,6 +5,7 @@ import VueResources from 'vue-resource'
 import App from './App'
 import store from './store'
 import Vuetify from 'vuetify'
+import socialSharing from 'vue-social-sharing'
 
 // import material from 'materialize-css'
 // import icon from 'material-icons/css/material-icons.css'
@@ -15,10 +16,10 @@ import router from './router'
 // import 'material-design-icons/iconfont/material-icons.css'
 import 'vuetify/dist/vuetify.min.css'
 
-// Vue.use(material)
 Vue.use(VueResources)
 Vue.config.productionTip = false
 Vue.use(Vuetify)
+Vue.use(socialSharing)
 
 Vue.http.interceptors.push(
   function (request) {

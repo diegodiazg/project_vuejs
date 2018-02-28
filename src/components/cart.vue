@@ -5,13 +5,10 @@
       :nudge-width="200"
       v-model="menu"
     >
-      <v-btn color="indigo" dark slot="activator">Cart shopping</v-btn>
+      <v-btn flat class='white--text'  slot="activator">Cart shopping</v-btn>
       <v-card>
         <v-list>
           <v-list-tile avatar>
-            <v-list-tile-avatar>
-              <img src="/static/doc-images/john.jpg" alt="John">
-            </v-list-tile-avatar>
             <v-list-tile-content>
               <v-list-tile-title>Products</v-list-tile-title>
               <v-list-tile-sub-title>Cart shopping</v-list-tile-sub-title>
@@ -31,9 +28,20 @@
         <v-list v-for="(it, key) in items" :key="key">
           <v-list-tile>
             <v-list-tile-avatar>
-              <img src="/static/doc-images/john.jpg" alt="John">
+              <img :src="'http://mmi.cdhyt.org/media/'+it.picture" :alt="it.name">
             </v-list-tile-avatar>
-            <v-list-tile-title>{{it.name}} </v-list-tile-title>
+            <v-list-tile-content>
+              <v-list-tile-title v-html="it.name"></v-list-tile-title>
+              <v-list-tile-sub-title v-html="it.brand"></v-list-tile-sub-title>
+            </v-list-tile-content>
+            <v-list-tile-action>
+              <v-btn
+                icon
+                @click="removeItem(key)"
+              >
+                <v-icon>delete</v-icon>
+              </v-btn>
+            </v-list-tile-action>
           </v-list-tile>
         </v-list>
         <v-card-actions>
@@ -63,20 +71,27 @@ export default {
     }
   },
   mounted () {
-    // this.list()
+    this.items = []
+    this.items = this.$store.dispatch('get_car_item')
+  },
+  updated () {
+    this.items = this.$store.state.cart
+    console.log(this.items)
   },
   methods: {
     list () {
       // this.items = this.$store.dispatch('get_car_item')
-      // this.items = this.item
+      this.items = this.$store.state.cart
     },
     delete () {
     },
     add (index, model) {
       this.set(this.items, index, model)
     },
-    removeItem: function (key, model, event) {
-      this.items.splice(key, 1)
+    removeItem: function (key, event) {
+      this.items = this.$store.dispatch('remove_item_cart', {
+        key
+      })
     },
     filters: {
       format_number: function (value) {

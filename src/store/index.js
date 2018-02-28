@@ -25,17 +25,32 @@ const store = new Vuex.Store({
       }
     },
     get_car_item () {
-      if (!localStorage.getItem('cart')) {
+      if (localStorage.getItem('cart')) {
+        this.state.cart = JSON.parse(localStorage.getItem('cart'))
         return this.state.cart
       }
+    },
+    remove_item_cart ({ commit }, key) {
+      commit('remove_item_cart', key)
+    },
+    add_item_cart ({ commit }, payload) {
+      commit('add_item_cart', {
+        index: payload.index,
+        model: payload.model
+      })
     }
   },
   mutations: {
     toke: state => {
       return state.toke
     },
-    set_cart (state, newItem) {
-      state.cart = newItem
+    add_item_cart (state, payload) {
+      Vue.set(this.state.cart, payload.index, payload.model)
+      localStorage.setItem('cart', JSON.stringify(this.state.cart))
+    },
+    remove_item_cart (state, key) {
+      this.state.cart.splice(key, 1)
+      localStorage.setItem('cart', JSON.stringify(this.state.cart))
     }
   }
 })

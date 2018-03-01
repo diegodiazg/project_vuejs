@@ -38,7 +38,7 @@
             </v-list-tile-action>
               <v-btn flat > qty  {{it.quantity|format_number}}</v-btn>
               <v-btn flat > Q {{ it.product.price_sell|format_number}}</v-btn>
-            <v-list-tile-action>              
+            <v-list-tile-action>
               <v-btn
                 icon
                 @click="removeItem(key)"
@@ -82,7 +82,6 @@ export default {
   },
   updated () {
     this.items = this.$store.state.cart
-    console.log(this.items)
   },
   methods: {
     list () {

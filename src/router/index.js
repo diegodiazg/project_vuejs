@@ -17,6 +17,36 @@ export default new Router({
       path: '/checkout',
       name: 'checkout',
       component: checkout
+    },
+    {
+      path: '/contact',
+      name: 'contact',
+      component: checkout
+    },
+    {
+      path: '/wishlists',
+      name: 'wishlists',
+      component: checkout
+    },
+    {
+      path: '/detailproduct',
+      name: 'detailproduct',
+      component: checkout
+    },
+    {
+      path: '/shoes',
+      name: 'shoes',
+      component: checkout
+    },
+    {
+      path: '/bags',
+      name: 'bags',
+      component: checkout
+    },
+    {
+      path: '/hats',
+      name: 'hats',
+      component: checkout
     }
   ]
 })

@@ -12,7 +12,18 @@ const store = new Vuex.Store({
     cart: [],
     wishlists: []
   },
-  getters: {},
+  getters: {
+    TotalImportCart: state => {
+      var total = 0
+      state.cart.forEach(function (item) {
+        total += item.product.price_sell * item.quantity
+      })
+      return total
+    },
+    totalItemCart: state => {
+      return state.cart.length
+    }
+  },
   actions: {
     auth_api () {
       if (!localStorage.getItem('token')) {
@@ -45,7 +56,17 @@ const store = new Vuex.Store({
       return state.toke
     },
     add_item_cart (state, payload) {
-      Vue.set(this.state.cart, payload.index, payload.model)
+      const record = state.cart.find(item => item.index === payload.index)
+      if (!record) {
+        state.cart.push({
+          index: payload.index,
+          product: payload.model,
+          quantity: 1
+        })
+      } else {
+        console.log(record)
+        record.quantity++
+      }
       localStorage.setItem('cart', JSON.stringify(this.state.cart))
     },
     remove_item_cart (state, key) {

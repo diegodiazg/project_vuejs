@@ -28,13 +28,17 @@
         <v-list v-for="(it, key) in items" :key="key">
           <v-list-tile>
             <v-list-tile-avatar>
-              <img :src="'http://mmi.cdhyt.org/media/'+it.picture" :alt="it.name">
+              <img :src="'http://mmi.cdhyt.org/media/'+it.product.picture" :alt="it.product.name">
             </v-list-tile-avatar>
             <v-list-tile-content>
-              <v-list-tile-title v-html="it.name"></v-list-tile-title>
-              <v-list-tile-sub-title v-html="it.brand"></v-list-tile-sub-title>
+              <v-list-tile-title v-html="it.product.name"> </v-list-tile-title>
+              <v-list-tile-sub-title v-html="it.product.brand"></v-list-tile-sub-title>
             </v-list-tile-content>
             <v-list-tile-action>
+            </v-list-tile-action>
+              <v-btn flat > qty  {{it.quantity|format_number}}</v-btn>
+              <v-btn flat > Q {{ it.product.price_sell|format_number}}</v-btn>
+            <v-list-tile-action>              
               <v-btn
                 icon
                 @click="removeItem(key)"
@@ -46,6 +50,8 @@
         </v-list>
         <v-card-actions>
           <v-spacer></v-spacer>
+          <v-btn flat > {{ totalItemCart}}</v-btn>
+          <v-btn flat > {{ TotalImportCart|format_number}}</v-btn>
           <v-btn flat @click="menu = false">Cancel</v-btn>
           <v-btn color="primary" flat @click="menu = false">Save</v-btn>
         </v-card-actions>
@@ -92,12 +98,20 @@ export default {
       this.items = this.$store.dispatch('remove_item_cart', {
         key
       })
+    }
+  },
+  filters: {
+    format_number: function (value) {
+      if (!value) return ''
+      return isNaN(value) ? 0 : parseFloat(value).toFixed(2)
+    }
+  },
+  computed: {
+    TotalImportCart () {
+      return this.$store.getters.TotalImportCart
     },
-    filters: {
-      format_number: function (value) {
-        if (!value) return ''
-        return isNaN(value) ? 0 : parseFloat(value).toFixed(2)
-      }
+    totalItemCart () {
+      return this.$store.getters.totalItemCart
     }
   }
 }

@@ -1,33 +1,43 @@
 <template>
   <div>
-   <v-layout row wrap>
-          <v-carousel xs12>
-            <v-carousel-item src="http://mmi.cdhyt.org/media/pictures/2018/02/25/14448991_591277367725736_6139841395852704607_n.jpg"  ></v-carousel-item>
-          </v-carousel>
-          <v-card
-              class="portrait"
-              img="http://mmi.cdhyt.org/media/pictures/2018/02/25/14448991_591277367725736_6139841395852704607_n.jpg"
-              height="300px"
-            >
-          </v-card>
-          <v-layout wrap row>
-            <v-flex xs12  sm12 md3 lg3 xl4>
-              <banner></banner>
-            </v-flex>
-            <v-flex xs12 sm12 md9 lg9 xl8 >
-              <container></container>
-              <offert></offert>
+   <v-layout column>
+        <v-container fluid grid-list-md>
+          <v-layout row wrap>
+            <v-flex xs12 md4
+              v-for="(item, key) in products"
+              :key="key">
+              <v-card>
+                <v-card-media
+                  :src="'http://mmi.cdhyt.org/media/'+item.picture"
+                  height="400px">
+                </v-card-media>
+                <v-card-title primary-title>
+                  <div>
+                    <div class="headline">{{item.name}}</div>
+                      <span class="grey--text">{{item.brand}} - Q {{item.price_sell|format_number}}</span>
+                  </div>
+                </v-card-title>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn icon>
+                    <v-icon>favorite</v-icon>
+                  </v-btn>
+                  <v-btn icon @click="add_item_cart(key, item)">
+                    <v-icon>shopping_cart</v-icon>
+                  </v-btn>
+                  <v-btn icon>
+                    <v-icon>share</v-icon>
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
             </v-flex>
           </v-layout>
-    </v-layout>
+        </v-container>
+  </v-layout>
   </div>
 </template>
 
 <script>
-import sharing from './sharing'
-import container from '@/components/container'
-import banner from '@/components/banner'
-import offert from '@/components/offert'
 
 export default {
   name: 'container',
@@ -35,8 +45,7 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App',
       products: [],
-      token: '',
-      components: { sharing, container, banner, offert }
+      token: ''
     }
   },
   mounted () {

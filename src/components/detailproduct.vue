@@ -5,7 +5,7 @@
       :nudge-width="200"
       v-model="menu"
     >
-      <v-btn flat  slot="activator">Cart shopping</v-btn>
+      <v-btn flat class='white--text'  slot="activator">Cart shopping</v-btn>
       <v-card>
         <v-list>
           <v-list-tile avatar>

@@ -1,23 +1,70 @@
 <template>
   <div id="App">
-    <v-app>
-      <v-toolbar color='red' class='white--text'>
-        <v-toolbar-side-icon class='white--text'></v-toolbar-side-icon>
-        <v-toolbar-title>Title</v-toolbar-title>
-          <v-spacer></v-spacer>
-          <v-text-field class='white--text' prepend-icon="search" hide-details single-line></v-text-field>
-          <v-toolbar-items class="hidden-sm-and-down white--text">
-            <cart></cart>
-            <router-link to="/checkout" append>Checkout</router-link>
-            <v-btn flat class='white--text'><router-link to="/" append>Home</router-link></v-btn>
-            <v-btn flat class='white--text'>Link Three</v-btn>
-          </v-toolbar-items>
-      </v-toolbar>
-      <div>
-        <img src="http://mmi.cdhyt.org/media/pictures/2018/02/25/logo_jDztL3K.png">
-      </div>
+    <v-app class="white">
+      <v-layout row wrap>
+        <v-spacer></v-spacer>
+        <v-btn flat to="/checkout">Checkout</v-btn>
+        <v-btn flat to="/">Home</v-btn>
+        <v-btn flat to="/login">Login</v-btn>
+      </v-layout>
+      <v-layout>
+        <v-flex xs12 sm12 md4>
+          <router-link to="/"><img src="./assets/logo.png"></router-link>
+        </v-flex>
+        <v-flex xs12 sm12 md4>
+          <v-text-field
+            flat
+            prepend-icon="search"
+            label="Search"
+            class="hidden-sm-and-down"
+          ></v-text-field>
+        </v-flex>
+        <v-flex>
+          <cart></cart>
+        </v-flex>
+      </v-layout>
+      <v-layout red >
+        <v-toolbar
+           dark color="primary"
+        >
+        <v-flex xs12 sm12 md1 >
+          <v-btn flat >Collection</v-btn>
+        </v-flex>
+        <v-flex xs12 sm12 md1>
+          <v-btn flat >Bags</v-btn>
+        </v-flex>
+        <v-flex xs12 sm12 md1>
+          <v-btn flat >Shooes</v-btn>
+        </v-flex>
+        <v-flex xs12 sm12 md1>
+          <v-btn flat >Hats</v-btn>
+        </v-flex>
+        <v-flex xs12 sm12 md1>
+          <v-btn flat >Accesorios</v-btn>
+        </v-flex>
+        <v-flex xs12 sm12 md1>
+          <v-btn flat to="/blog">Blog</v-btn>
+        </v-flex>
+        <v-flex xs12 sm12 md1>
+          <v-btn flat to="/contact">Contact</v-btn>
+        </v-flex>
+        </v-toolbar>
+      </v-layout>
+      <br/>
       <v-container grid-list-md text-xs-center>
-          <router-view></router-view>
+        <router-view></router-view>
+        <v-layout row wrap>
+          <router-view name="principal"></router-view>
+          <v-layout wrap row>
+            <v-flex xs12  sm12 md3 lg3 xl4>
+              <router-view name="banner"></router-view>
+            </v-flex>
+            <v-flex xs12 sm12 md9 lg9 xl8 >
+              <router-view name="container"></router-view>
+              <router-view name="offert"></router-view>
+            </v-flex>
+          </v-layout>
+        </v-layout>
       </v-container>
       <pie></pie>
     </v-app>

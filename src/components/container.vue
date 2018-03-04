@@ -38,7 +38,6 @@
 </template>
 
 <script>
-import sharing from './sharing'
 
 export default {
   name: 'container',
@@ -46,8 +45,7 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App',
       products: [],
-      token: '',
-      components: { 'sharing': sharing }
+      token: ''
     }
   },
   mounted () {

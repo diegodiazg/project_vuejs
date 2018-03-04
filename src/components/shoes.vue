@@ -2,7 +2,7 @@
   <v-footer height="auto">
     <v-flex xs12 sm12>
       <v-card >
-        <v-card-title class="yellow ">
+        <v-card-title class="red white--text">
           <strong class="subheading">Get connected with us on social networks!</strong>
           <v-btn
             v-for="icon in icons"
@@ -14,7 +14,7 @@
             <v-icon size="24px">{{ icon }}</v-icon>
           </v-btn>
         </v-card-title>
-        <v-card-text class="blue white--text" >
+        <v-card-text class="blue">
           <v-layout>
             <v-flex
               v-for="(col, i) in rows"
@@ -49,7 +49,7 @@
             </v-flex>
           </v-layout>
         </v-card-text>
-        <v-card-actions class="red justify-center white--text">
+        <v-card-actions class="yellow justify-center">
           &copy;2018 — <strong>Mi Moda Internacional</strong>
         </v-card-actions>
       </v-card>

@@ -6,17 +6,51 @@ import App from './App'
 import store from './store'
 import Vuetify from 'vuetify'
 import socialSharing from 'vue-social-sharing'
-
-// import material from 'materialize-css'
-// import icon from 'material-icons/css/material-icons.css'
-// import jQuery from 'jquery'
-import 'jquery/dist/jquery'
 import router from './router'
-// import 'materialize-css/dist/css/materialize.css'
-// import 'material-design-icons/iconfont/material-icons.css'
 import 'vuetify/dist/vuetify.min.css'
+import VueAxios from 'vue-axios'
+import VueAuthenticate from 'vue-authenticate'
+import axios from 'axios'
 
+Vue.use(axios, VueAxios)
 Vue.use(VueResources)
+
+Vue.use(VueAuthenticate, {
+  baseUrl: 'http://localhost:8080', // Your API domain
+  providers: {
+    github: {
+      clientId: '5a707560ae7360d77587',
+      redirectUri: 'http://localhost:8080' // Your client app URL
+    },
+    facebook: {
+      clientId: '1311542472191561',
+      redirectUri: 'http://localhost:8080' // Your client app URL
+
+    },
+    google: {
+      clientId: '112541925459-u8730o5l0n5nst1gf28a4tfo8g2damoi.apps.googleusercontent.com',
+      redirectUri: '/auth/callback' // Your client app URL
+    }
+  },
+  bindRequestInterceptor: function () {
+    axios.interceptors.request.use((config) => {
+      if (Vue.isAuthenticated()) {
+        config.headers['Authorization'] = [
+          Vue.options.tokenType, this.getToken()
+        ].join(' ')
+      } else {
+        delete config.headers['Authorization']
+      }
+      return config
+    })
+  },
+  bindResponseInterceptor: function () {
+    axios.interceptors.response.use((response) => {
+      Vue.setToken(response)
+      return response
+    })
+  }
+})
 Vue.config.productionTip = false
 Vue.use(Vuetify)
 Vue.use(socialSharing)
@@ -26,6 +60,7 @@ Vue.http.interceptors.push(
     request.headers.set('Authorization', 'JWT ' + localStorage.getItem('token'))
   }
 )
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
@@ -33,5 +68,4 @@ new Vue({
   components: { App },
   template: '<App/>',
   store: store
-
 })

@@ -9,6 +9,7 @@ const store = new Vuex.Store({
   state: {
     toke: '',
     language_accept: 'es',
+    isAuthenticated: false,
     cart: [],
     wishlists: []
   },
@@ -22,6 +23,9 @@ const store = new Vuex.Store({
     },
     totalItemCart: state => {
       return state.cart.length
+    },
+    isAuthenticated: state => {
+      return state.isAuthenticated
     }
   },
   actions: {
@@ -34,6 +38,9 @@ const store = new Vuex.Store({
           console.error(error)
         })
       }
+    },
+    login ({commit}, payload) {
+      commit('isAuthenticated', payload)
     },
     get_car_item () {
       if (localStorage.getItem('cart')) {
@@ -54,6 +61,9 @@ const store = new Vuex.Store({
   mutations: {
     toke: state => {
       return state.toke
+    },
+    isAuthenticated (state, payload) {
+      state.isAuthenticated = payload.isAuthenticated
     },
     add_item_cart (state, payload) {
       const record = state.cart.find(item => item.index === payload.index)

@@ -13,11 +13,13 @@ import blogDetail from '@/components/blogDetail'
 import offert from '@/components/offert'
 import container from '@/components/container'
 import banner from '@/components/banner'
+import authCallback from '@/components/authCallback'
 // import app from '@/App'
 
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -38,6 +40,11 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: login
+    },
+    {
+      path: '/auth/callback ',
+      name: 'auth_callback',
+      component: authCallback
     },
     {
       path: '/contact',

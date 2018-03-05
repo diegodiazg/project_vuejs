@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import {HTTP} from './../services'
 
 export default {
   name: 'container',
@@ -50,24 +51,13 @@ export default {
   },
   mounted () {
     // this.auth_api()
-    this.$store.dispatch('auth_api')
-    this.auth_api()
+    // this.$store.dispatch('auth_api')
+    this.get_products()
   },
   methods: {
     get_products () {
-      this.$http.get('http://mmi.cdhyt.org/api/products/', {
-        headers: { 'Authorization': 'JWT ' + this.token } }
-      ).then(result => {
-        this.products = result.body
-      }, error => {
-        console.error(error)
-      })
-    },
-    auth_api () {
-      this.$http.post('http://mmi.cdhyt.org/api-token-auth/', {'email': 'admin@admin.com', 'password': 'qwerty123'}
-      ).then(result => {
-        this.token = result.body.token
-        this.get_products()
+      HTTP.get('/products').then(result => {
+        this.products = result.data
       }, error => {
         console.error(error)
       })

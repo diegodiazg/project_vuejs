@@ -51,6 +51,8 @@ Vue.use(VueAuthenticate, {
     })
   }
 })
+
+store.dispatch('auth_api')
 Vue.config.productionTip = false
 Vue.use(Vuetify)
 Vue.use(socialSharing)

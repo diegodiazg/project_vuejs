@@ -54,7 +54,6 @@
       <v-container grid-list-md text-xs-center>
         <router-view></router-view>
         <v-layout row wrap>
-          <router-view name="principal"></router-view>
           <v-layout wrap row>
             <v-flex xs12  sm12 md3 lg3 xl4>
               <router-view name="banner"></router-view>

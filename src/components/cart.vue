@@ -36,7 +36,7 @@
             </v-list-tile-content>
             <v-list-tile-action>
             </v-list-tile-action>
-              <v-btn flat > qty  {{it.quantity|format_number}}</v-btn>
+              <v-btn flat > qty  {{it.product.quantity|format_number}}</v-btn>
               <v-btn flat > Q {{ it.product.price_sell|format_number}}</v-btn>
             <v-list-tile-action>
               <v-btn

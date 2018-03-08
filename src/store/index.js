@@ -67,15 +67,15 @@ const store = new Vuex.Store({
     },
     add_item_cart (state, payload) {
       const record = state.cart.find(item => item.index === payload.index)
+      payload.model.quantity = 1
       if (!record) {
         state.cart.push({
           index: payload.index,
-          product: payload.model,
-          quantity: 1
+          product: payload.model
         })
       } else {
         console.log(record)
-        record.quantity++
+        record.product.quantity++
       }
       localStorage.setItem('cart', JSON.stringify(this.state.cart))
     },

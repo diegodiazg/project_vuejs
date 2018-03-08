@@ -1,44 +1,69 @@
 <template>
-  <v-data-table
-    :headers="headers"
-    :items="items"
-    hide-actions
-    class="elevation-1"
-  >
-    <template slot="items" slot-scope="props">
-      <td>{{ props.item.product.name }}</td>
-      <td class="text-xs-right">{{ props.item.product.price_sell|format_number }}</td>
-      <td class="text-xs-right">{{ props.item.product.brand }}</td>
-      <td class="text-xs-right">{{ props.item.product.category }}</td>
-      <td class="text-xs-right">
-        <v-layout align-center>
-          <v-btn flat value="left">
-            <i class="material-icons">keyboard_arrow_down</i>
-          </v-btn>
-          <v-text-field
-            name="quantity"
-            change="chang_value()"
-            id="testing"
-            type="number"
-            prefix="Q"
-            :value="props.item.quantity|format_number"
-           ></v-text-field>
-           <v-btn flat value="right">
-             <i class="material-icons">keyboard_arrow_up</i>
+  <v-layout>
+    <v-flex xs12 sm9 >
+      <v-data-table
+        :headers="headers"
+        :items="items"
+        hide-actions
+        class="elevation-1"
+      >
+        <template slot="items" slot-scope="props">
+          <td>{{ props.item.product.name }}</td>
+          <td class="text-xs-right">{{ props.item.product.price_sell|format_number }}</td>
+          <td class="text-xs-right">{{ props.item.product.brand }}</td>
+          <td class="text-xs-right">{{ props.item.product.category }}</td>
+          <td class="text-xs-right" style="width:20%">
+              <v-text-field
+                class="text-alight:right;"
+                name="quantity"
+                change="chang_value()"
+                id="testing"
+                single-line
+                type="number"
+                :value="props.item.product.quantity|format_number"
+               ></v-text-field>
+          </td>
+          <td class="justify-center layout px-0">
+           <v-btn icon class="mx-0" @click="deleteItem(props.item)">
+             <v-icon color="pink">delete</v-icon>
            </v-btn>
-        </v-layout>
-      </td>
-      <td class="justify-center layout px-0">
-       <v-btn icon class="mx-0" @click="deleteItem(props.item)">
-         <v-icon color="pink">delete</v-icon>
-       </v-btn>
-      </td>
-    </template>
-  </v-data-table>
+          </td>
+        </template>
+      </v-data-table>
+    </v-flex>
+    <v-flex xs12 sm3 >
+      <v-card>
+      <v-container>
+      <v-text-field
+           label="NIT"
+           v-model="name"
+           required
+         ></v-text-field>
+      <v-text-field
+          label="Address"
+          v-model="name"
+          required
+      ></v-text-field>
+      <v-text-field
+             label="Phone"
+             v-model="name"
+             required
+      ></v-text-field>
+      <v-text-field
+             label="Reference"
+             v-model="name"
+             required
+      ></v-text-field>
+      </v-container>
+      </v-card>
+      <v-btn outline color="indigo" @click="pay">Pay</v-btn>
+    </v-flex>
+  </v-layout>
 </template>
 <script>
 
 // import PayPal from 'vue-paypal-checkout'
+import {HTTP} from './../services'
 
 export default {
   name: 'checkout',
@@ -57,7 +82,16 @@ export default {
         { text: 'Actions', value: 'name', sortable: false, 'align': 'right' }
       ],
       items: [],
-      value: 0
+      value: 0,
+      name: '',
+      address: '',
+      phone: '',
+      nit: '',
+      reference: '',
+      num_reference: '',
+      shipping: '',
+      discount: '',
+      description: ''
     }
   },
   methods: {
@@ -72,6 +106,25 @@ export default {
     },
     change_value () {
       console.log('llegue')
+    },
+    pay () {
+      HTTP.post('/invoices/', {
+        products: this.items,
+        addres: this.address,
+        phone: this.phone,
+        nit: this.nit,
+        reference: this.reference,
+        num_reference: this.num_reference,
+        shipping: this.shipping,
+        descripction: this.descripction,
+        discount: this.discount
+      })
+        .then(function (response) {
+          console.log(response)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
     }
   },
   updated () {

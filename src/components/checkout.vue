@@ -88,9 +88,9 @@ export default {
       phone: '',
       nit: '',
       reference: '',
-      num_reference: '',
-      shipping: '',
-      discount: '',
+      reference_number: 0,
+      shipping: 0,
+      discount: 0,
       description: ''
     }
   },
@@ -110,20 +110,22 @@ export default {
     pay () {
       HTTP.post('/invoices/', {
         products: this.items,
-        addres: this.address,
+        address: this.address,
         phone: this.phone,
         nit: this.nit,
         reference: this.reference,
-        num_reference: this.num_reference,
+        reference_number: this.reference_number,
         shipping: this.shipping,
-        descripction: this.descripction,
+        description: this.description,
         discount: this.discount
       })
         .then(function (response) {
           console.log(response)
+          // limpoiar el carrito
         })
         .catch(function (error) {
           console.log(error)
+          // mostrar errores.
         })
     }
   },

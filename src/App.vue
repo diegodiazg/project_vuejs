@@ -40,13 +40,16 @@
           <v-btn flat >Hats</v-btn>
         </v-flex>
         <v-flex xs12 sm12 md1>
-          <v-btn flat >Accesorios</v-btn>
+          <v-btn flat to="/invoices" >Accesorios</v-btn>
         </v-flex>
         <v-flex xs12 sm12 md1>
           <v-btn flat to="/blog">Blog</v-btn>
         </v-flex>
         <v-flex xs12 sm12 md1>
           <v-btn flat to="/contact">Contact</v-btn>
+        </v-flex>
+        <v-flex xs12 sm12 md1>
+          <v-btn flat to="/invoices" >Compras</v-btn>
         </v-flex>
         </v-toolbar>
       </v-layout>

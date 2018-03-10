@@ -1,17 +1,20 @@
 <template>
   <v-layout>
-    <v-flex xs12 sm12 >
+    <v-flex xs12 sm8 offset-sm2>
       <v-card>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+        </v-card-actions>
         <v-container fluid v-bind="{ [`grid-list-${size}`]: true }">
           <v-layout row wrap>
             <v-flex
               xs4
-              v-for="n in 9"
-              :key="n"
+              v-for="(n, key) in items"
+              :key="key"
             >
               <v-card flat tile>
-                <v-card-media
-                  :src="`https://unsplash.it/150/300?image=${Math.floor(Math.random() * 100) + 1}`"
+                <v-card-media v-if="n.picture_obj[0]"
+                  :src="'http://mmi.tests'+n.picture_obj[0].url"
                   height="150px"
                 >
                 </v-card-media>
@@ -25,16 +28,30 @@
 </template>
 
 <script>
+import {HTTP} from './../services'
+
 export default {
-  data: () => ({
-    size: 'sm',
-    items: [
-      { text: 'Extra small (2px)', value: 'xs' },
-      { text: 'Small (4px)', value: 'sm' },
-      { text: 'Medium (8px)', value: 'md' },
-      { text: 'Large (16px)', value: 'lg' },
-      { text: 'Extra large (24px)', value: 'xl' }
-    ]
-  })
+  name: 'blog',
+  data () {
+    return {
+      size: 'sm',
+      items: []
+    }
+  },
+  methods: {
+    async list () {
+      let self = this
+      HTTP.get('/posts/')
+        .then(function (response) {
+          self.items = response.data
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    }
+  },
+  created () {
+    this.list()
+  }
 }
 </script>

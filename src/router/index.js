@@ -14,6 +14,7 @@ import offert from '@/components/offert'
 import container from '@/components/container'
 import banner from '@/components/banner'
 import authCallback from '@/components/authCallback'
+import invoices from '@/components/invoices'
 // import app from '@/App'
 
 Vue.use(Router)
@@ -35,6 +36,11 @@ export default new Router({
       path: '/checkout',
       name: 'checkout',
       component: checkout
+    },
+    {
+      path: '/invoices',
+      name: 'invoices',
+      component: invoices
     },
     {
       path: '/login',

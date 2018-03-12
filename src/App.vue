@@ -9,7 +9,7 @@
       </v-layout>
       <v-layout>
         <v-flex xs12 sm12 md4>
-          <router-link to="/"><img src="./assets/logo.png"></router-link>
+          <router-link to="/"><img src="./assets/logo_new.png" width="121" height="48"></router-link>
         </v-flex>
         <v-flex xs12 sm12 md4>
           <v-text-field

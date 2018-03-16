@@ -34,25 +34,36 @@
           </v-layout>
         </v-container>
   </v-layout>
+  <toast :show="front"
+         :text="text"
+         :x="x"
+         :y="y"
+         :time="6000"></toast>
   </div>
 </template>
 
 <script>
 import {HTTP} from './../services'
+import toast from './toast'
 
 export default {
   name: 'container',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App',
       products: [],
-      token: ''
+      token: '',
+      text: 'El producto fue agregado.',
+      timeout: 6000,
+      front: false,
+      x: 'top',
+      y: 'right'
     }
   },
   mounted () {
-    // this.auth_api()
-    // this.$store.dispatch('auth_api')
     this.get_products()
+  },
+  components: {
+    toast
   },
   methods: {
     get_products () {
@@ -62,11 +73,16 @@ export default {
         console.error(error)
       })
     },
+    hidden_toast () {
+      if (this.front) this.front = false
+    },
     add_item_cart (index, model) {
+      this.front = false
       this.items = this.$store.dispatch('add_item_cart', {
         index,
         model
       })
+      this.front = true
     }
   },
   filters: {

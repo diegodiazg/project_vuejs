@@ -11,13 +11,14 @@ const store = new Vuex.Store({
     language_accept: 'es',
     isAuthenticated: false,
     cart: [],
+    currency: 'USD',
     wishlists: []
   },
   getters: {
     TotalImportCart: state => {
       var total = 0
       state.cart.forEach(function (item) {
-        total += item.product.price_sell * item.quantity
+        total += item.product.price_sell * item.product.quantity
       })
       return total
     },
@@ -26,6 +27,9 @@ const store = new Vuex.Store({
     },
     isAuthenticated: state => {
       return state.isAuthenticated
+    },
+    getCurrency: state => {
+      return state.currency
     }
   },
   actions: {
@@ -51,6 +55,9 @@ const store = new Vuex.Store({
     remove_item_cart ({ commit }, key) {
       commit('remove_item_cart', key)
     },
+    set_currency ({ commit }, key) {
+      commit('set_currency', key)
+    },
     add_item_cart ({ commit }, payload) {
       commit('add_item_cart', {
         index: payload.index,
@@ -74,7 +81,6 @@ const store = new Vuex.Store({
           product: payload.model
         })
       } else {
-        console.log(record)
         record.product.quantity++
       }
       localStorage.setItem('cart', JSON.stringify(this.state.cart))
@@ -82,6 +88,10 @@ const store = new Vuex.Store({
     remove_item_cart (state, key) {
       this.state.cart.splice(key, 1)
       localStorage.setItem('cart', JSON.stringify(this.state.cart))
+    },
+    set_currency (state, key) {
+      this.state.currency = key
+      localStorage.setItem('currency', this.state.currency)
     }
   }
 })

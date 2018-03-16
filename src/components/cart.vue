@@ -94,8 +94,32 @@ export default {
       this.set(this.items, index, model)
     },
     removeItem: function (key, event) {
-      this.items = this.$store.dispatch('remove_item_cart', {
-        key
+      this.$swal({
+        title: 'Estas seguro?',
+        text: 'Deseeas eliminar del carrito el producto!',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Si, borrar!',
+        cancelButtonText: 'No'
+      }).then((result) => {
+        if (result) {
+          this.items = this.$store.dispatch('remove_item_cart', {
+            key
+          })
+          this.$swal(
+            'Borrado!',
+            'El producto ha sido eliminado del carrito.',
+            'success'
+          )
+        // For more information about handling dismissals please visit
+        // https://sweetalert2.github.io/#handling-dismissals
+        } else if (result.dismiss === this.$swal.DismissReason.cancel) {
+          this.$swal(
+            'Cancelado',
+            'No se ha hecho ningun cambio',
+            'error'
+          )
+        }
       })
     }
   },

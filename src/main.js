@@ -11,7 +11,9 @@ import 'vuetify/dist/vuetify.min.css'
 import VueAxios from 'vue-axios'
 import VueAuthenticate from 'vue-authenticate'
 import axios from 'axios'
+import VueSweetAlert from 'vue-sweetalert'
 
+Vue.use(VueSweetAlert)
 Vue.use(axios, VueAxios)
 Vue.use(VueResources)
 

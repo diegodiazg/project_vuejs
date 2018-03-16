@@ -1,6 +1,6 @@
 <template>
   <v-layout>
-    <v-flex xs12 sm9 >
+    <v-flex xs12 sm9 md8>
       <v-data-table
         :headers="headers"
         :items="items"
@@ -13,56 +13,82 @@
           <td class="text-xs-right">{{ props.item.product.brand }}</td>
           <td class="text-xs-right">{{ props.item.product.category }}</td>
           <td class="text-xs-right" style="width:20%">
-              <v-text-field
-                class="text-alight:right;"
-                name="quantity"
-                change="chang_value()"
-                id="testing"
-                single-line
-                type="number"
-                :value="props.item.product.quantity|format_number"
-               ></v-text-field>
+            <v-text-field
+              class="text-alight:right;"
+              @change="add_item_cart(props.item.index, props.item.product, value)"
+              type="number"
+              :value="props.item.product.quantity|format_number"
+             ></v-text-field>
           </td>
           <td class="justify-center layout px-0">
-           <v-btn icon class="mx-0" @click="deleteItem(props.item)">
+           <v-btn icon class="mx-0" @click="removeItem(props.item.index)">
              <v-icon color="pink">delete</v-icon>
            </v-btn>
           </td>
         </template>
       </v-data-table>
     </v-flex>
-    <v-flex xs12 sm3 >
+    <v-flex xs12 sm3 md4>
       <v-card>
-      <v-container>
-      <v-text-field
-           label="NIT"
-           v-model="name"
-           required
-         ></v-text-field>
-      <v-text-field
-          label="Address"
-          v-model="name"
-          required
-      ></v-text-field>
-      <v-text-field
-             label="Phone"
-             v-model="name"
-             required
-      ></v-text-field>
-      <v-text-field
-             label="Reference"
-             v-model="name"
-             required
-      ></v-text-field>
-      </v-container>
+        <v-container>
+          <h3 class="display-1"> TOTAL:{{TotalImportCart|format_number}}</h3>
+        </v-container>
+      </v-card>
+      <v-card>
+        <v-container>
+          <v-text-field
+               label="NIT"
+               v-model="name"
+               required
+             ></v-text-field>
+          <v-text-field
+              label="Address"
+              v-model="name"
+              required
+          ></v-text-field>
+          <v-text-field
+                 label="Phone"
+                 v-model="name"
+                 required
+          ></v-text-field>
+          <v-text-field
+                 label="Reference"
+                 v-model="name"
+                 required
+          ></v-text-field>
+          <v-card-text>
+            <v-text-field label="Credit cart" mask="credit-card" v-model="number_credit_cart"></v-text-field>
+          </v-card-text>
+          <v-card-text>
+            <v-text-field label="CVC" v-model="cvc"></v-text-field>
+          </v-card-text>
+          <v-checkbox
+            color="green"
+            v-model="term_and_condition"
+          >
+            <div slot="label">
+              Do you accept the
+              <a href="#" @click.stop="terms = true">terms</a>
+              and
+              <a href="#" @click.stop="conditions = true">conditions?</a>
+            </div>
+          </v-checkbox>
+        </v-container>
       </v-card>
       <v-btn outline color="indigo" @click="pay">Pay</v-btn>
+       <PayPal
+        :amount="this.$store.getters.TotalImportCart"
+        :currency="this.$store.getters.getCurrency"
+        env="sandbox"
+        :client="credentials"
+        >
+      </PayPal>
     </v-flex>
   </v-layout>
 </template>
 <script>
 
-// import PayPal from 'vue-paypal-checkout'
+import PayPal from 'vue-paypal-checkout'
 import {HTTP} from './../services'
 
 export default {
@@ -70,7 +96,7 @@ export default {
   data () {
     return {
       credentials: {
-        sandbox: 'ARyNDMbKwa-zLx7AtfPa-etrhyTVAFd2UjEivZ6JvlQSsoWoEjaourX2',
+        sandbox: 'AZeYwdp3p67IH9NOqKVsKBjJCBOwJ2rgi3p1XjPKsnrGq63QkVzbu4w4S5wQHqRoLYJas5OLnOctAVGJ',
         production: 'remedios.paraelalma-facilitator_api1.gmail.com'
       },
       headers: [
@@ -91,21 +117,55 @@ export default {
       reference_number: 0,
       shipping: 0,
       discount: 0,
-      description: ''
+      description: '',
+      total: '',
+      term_and_condition: '',
+      number_credit_cart: '4444444444444444',
+      cvc: ''
     }
   },
   methods: {
-    editItem (item) {
-      this.editedIndex = this.items.indexOf(item)
-      this.editedItem = Object.assign({}, item)
-      this.dialog = true
-    },
+
     deleteItem (item) {
       const index = this.items.indexOf(item)
       confirm('Are you sure you want to delete this item?') && this.items.splice(index, 1)
     },
+    removeItem: function (key, event) {
+      this.$swal({
+        title: 'Are you sure?',
+        text: 'You will not be able to recover this imaginary file!',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, keep it'
+      }).then((result) => {
+        if (result) {
+          console.log(key)
+          this.items = this.$store.dispatch('remove_item_cart', {
+            key
+          })
+          this.$swal(
+            'Deleted!',
+            'Your imaginary file has been deleted.',
+            'success'
+          )
+        // For more information about handling dismissals please visit
+        // https://sweetalert2.github.io/#handling-dismissals
+        } else if (result.dismiss === this.$swal.DismissReason.cancel) {
+          this.$swal(
+            'Cancelled',
+            'Your imaginary file is safe :)',
+            'error'
+          )
+        }
+      })
+    },
+
     change_value () {
       console.log('llegue')
+    },
+    add_item_cart (index, model, value) {
+      console.log(value)
     },
     pay () {
       HTTP.post('/invoices/', {
@@ -133,12 +193,17 @@ export default {
     this.items = this.$store.state.cart
   },
   components: {
-    // PayPal
+    PayPal
   },
   filters: {
     format_number: function (value) {
       if (!value) return ''
       return isNaN(value) ? 0 : parseFloat(value).toFixed(2)
+    }
+  },
+  computed: {
+    TotalImportCart () {
+      return this.$store.getters.TotalImportCart
     }
   }
 }

@@ -32,7 +32,31 @@
       <v-card>
         <v-container>
           <h3 class="display-1"> TOTAL:{{TotalImportCart|format_number}}</h3>
+          <v-checkbox
+               label="paypal?"
+               v-model="paypal"
+             ></v-checkbox>
         </v-container>
+      </v-card>
+      <v-card>
+        <v-container v-if="paypal == false" transition="fade-transition">
+          <v-card-text>
+            <v-text-field label="Credit cart" mask="credit-card" v-model="number_credit_cart"></v-text-field>
+          </v-card-text>
+          <v-card-text>
+            <v-text-field label="CVC" v-model="cvc"></v-text-field>
+          </v-card-text>
+        </v-container>
+         <PayPal
+          :amount="this.$store.getters.TotalImportCart"
+          :currency="this.$store.getters.getCurrency"
+          env="sandbox"
+          :client="credentials"
+          v-if="paypal"
+          :items="items.product"
+           transition="fade-transition">
+          >
+        </PayPal>
       </v-card>
       <v-card>
         <v-container>
@@ -56,12 +80,6 @@
                  v-model="name"
                  required
           ></v-text-field>
-          <v-card-text>
-            <v-text-field label="Credit cart" mask="credit-card" v-model="number_credit_cart"></v-text-field>
-          </v-card-text>
-          <v-card-text>
-            <v-text-field label="CVC" v-model="cvc"></v-text-field>
-          </v-card-text>
           <v-checkbox
             color="green"
             v-model="term_and_condition"
@@ -76,13 +94,6 @@
         </v-container>
       </v-card>
       <v-btn outline color="indigo" @click="pay">Pay</v-btn>
-       <PayPal
-        :amount="this.$store.getters.TotalImportCart"
-        :currency="this.$store.getters.getCurrency"
-        env="sandbox"
-        :client="credentials"
-        >
-      </PayPal>
     </v-flex>
   </v-layout>
 </template>
@@ -121,7 +132,8 @@ export default {
       total: '',
       term_and_condition: '',
       number_credit_cart: '4444444444444444',
-      cvc: ''
+      cvc: '',
+      paypal: false
     }
   },
   methods: {

@@ -28,7 +28,7 @@
         <v-list v-for="(it, key) in items" :key="key">
           <v-list-tile>
             <v-list-tile-avatar>
-              <img :src="'http://mmi.cdhyt.org/media/'+it.product.picture" :alt="it.product.name">
+              <img :src="$store.state.mediaURL+it.product.picture[0]" :alt="it.product.name">
             </v-list-tile-avatar>
             <v-list-tile-content>
               <v-list-tile-title v-html="it.product.name"> </v-list-tile-title>

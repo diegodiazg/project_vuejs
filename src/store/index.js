@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VueResources from 'vue-resource'
-
+// baseURL: `http://mmi.cdhyt.org/api/`,
+// baseURL: `http://mmi.tests/api/`,
 Vue.use(VueResources)
 Vue.use(Vuex)
 
@@ -11,6 +12,9 @@ const store = new Vuex.Store({
     language_accept: 'es',
     isAuthenticated: false,
     cart: [],
+    URL: 'http://mmi.tests/',
+    baseURL: '',
+    mediaURL: '',
     currency: 'USD',
     wishlists: []
   },
@@ -42,6 +46,17 @@ const store = new Vuex.Store({
           console.error(error)
         })
       }
+      if (!localStorage.getItem('URL')) {
+        localStorage.setItem('URL', this.state.URL)
+      }
+      if (!localStorage.getItem('baseURL')) {
+        localStorage.setItem('baseURL', this.state.URL + 'api/')
+      }
+      this.state.baseURL = localStorage.getItem('baseURL')
+      if (!localStorage.getItem('mediaURL')) {
+        localStorage.setItem('mediaURL', this.state.URL + 'media/')
+      }
+      this.state.mediaURL = localStorage.getItem('mediaURL')
     },
     login ({commit}, payload) {
       commit('isAuthenticated', payload)

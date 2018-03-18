@@ -16,9 +16,8 @@ import VueSweetAlert from 'vue-sweetalert'
 Vue.use(VueSweetAlert)
 Vue.use(axios, VueAxios)
 Vue.use(VueResources)
-
 Vue.use(VueAuthenticate, {
-  baseUrl: 'http://localhost:8080', // Your API domain
+  baseUrl: store.state.URL, // Your API domain
   providers: {
     github: {
       clientId: '5a707560ae7360d77587',

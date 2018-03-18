@@ -14,7 +14,7 @@
             >
               <v-card flat tile>
                 <v-card-media v-if="n.picture_obj[0]"
-                  :src="'http://mmi.cdhyt.org'+n.picture_obj[0].url"
+                  :src="$store.state.mediaURL+n.picture_obj[0].url"
                   height="150px"
                 >
                 </v-card-media>

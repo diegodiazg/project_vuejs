@@ -10,11 +10,10 @@
         <template slot="items" slot-scope="props">
           <td>{{ props.item.product.name }}</td>
           <td class="text-xs-right">{{ props.item.product.price_sell|format_number }}</td>
-          <td class="text-xs-right">{{ props.item.product.brand }}</td>
-          <td class="text-xs-right">{{ props.item.product.category }}</td>
+          <td class="text-xs-left">{{ props.item.product.description }}</td>
           <td class="text-xs-right" style="width:20%">
             <v-text-field
-              class="text-alight:right;"
+              style="text-alight:right;"
               @change="add_item_cart(props.item.index, props.item.product, value)"
               type="number"
               :value="props.item.product.quantity|format_number"
@@ -54,6 +53,7 @@
           :client="credentials"
           v-if="paypal"
           :items="items.product"
+          :notify-url="this.$store.state.baseURL+'callback_paypal/'"
            transition="fade-transition">
           >
         </PayPal>
@@ -113,8 +113,7 @@ export default {
       headers: [
         {text: 'Name', value: 'product.name', 'align': 'right'},
         {text: 'Price', value: 'product.price_sell', 'align': 'right'},
-        {text: 'Brand', value: 'product.brand', 'align': 'right'},
-        {text: 'Category', value: 'product.category', 'align': 'right'},
+        {text: 'Description', value: 'product.Description', 'align': 'left'},
         {text: 'Quantity', value: 'quantity', 'align': 'right'},
         { text: 'Actions', value: 'name', sortable: false, 'align': 'right' }
       ],
@@ -144,15 +143,14 @@ export default {
     },
     removeItem: function (key, event) {
       this.$swal({
-        title: 'Are you sure?',
-        text: 'You will not be able to recover this imaginary file!',
+        title: 'Estas seguro?',
+        text: 'El producto se eliminará del carrito!',
         type: 'warning',
         showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'No, keep it'
+        confirmButtonText: 'Si, borrarlo!',
+        cancelButtonText: 'No'
       }).then((result) => {
         if (result) {
-          console.log(key)
           this.items = this.$store.dispatch('remove_item_cart', {
             key
           })

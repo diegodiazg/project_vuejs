@@ -13,7 +13,7 @@
             </v-flex>
             <v-flex xs5 sm5 md5 lg5 xl5 >
               <v-card-media
-                 :src="'http://mmi.cdhyt.org/media/'+item.picture"
+                 :src="$store.state.mediaURL+item.picture[0]"
                  height="125px"
                  contain
               ></v-card-media>

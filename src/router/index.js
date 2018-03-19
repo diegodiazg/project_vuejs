@@ -15,6 +15,7 @@ import container from '@/components/container'
 import banner from '@/components/banner'
 import authCallback from '@/components/authCallback'
 import invoices from '@/components/invoices'
+import hats from '@/components/hats'
 // import app from '@/App'
 
 Vue.use(Router)
@@ -90,7 +91,7 @@ export default new Router({
     {
       path: '/hats',
       name: 'hats',
-      component: checkout
+      component: hats
     }
   ]
 })

@@ -8,7 +8,7 @@
               :key="key">
               <v-card>
                 <v-card-media
-                  :src="'http://mmi.cdhyt.org/media/'+item.picture"
+                  :src="$store.state.mediaURL+item.picture"
                   height="400px">
                 </v-card-media>
                 <v-card-title primary-title>
@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import toast from './toast'
 
 export default {
   name: 'container',
@@ -45,39 +46,29 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App',
       products: [],
-      token: ''
+      token: '',
+      text: 'El producto fue agregado.',
+      timeout: 6000,
+      front: false,
+      x: 'top',
+      y: 'right'
     }
   },
   mounted () {
-    // this.auth_api()
-    this.$store.dispatch('auth_api')
-    this.auth_api()
+    this.products = this.$store.getters.get_bags
   },
   methods: {
-    get_products () {
-      this.$http.get('http://mmi.cdhyt.org/api/products/', {
-        headers: { 'Authorization': 'JWT ' + this.token } }
-      ).then(result => {
-        this.products = result.body
-      }, error => {
-        console.error(error)
-      })
-    },
-    auth_api () {
-      this.$http.post('http://mmi.cdhyt.org/api-token-auth/', {'email': 'admin@admin.com', 'password': 'qwerty123'}
-      ).then(result => {
-        this.token = result.body.token
-        this.get_products()
-      }, error => {
-        console.error(error)
-      })
-    },
     add_item_cart (index, model) {
-      this.items = this.$store.dispatch('add_item_cart', {
+      this.front = false
+      this.$store.dispatch('add_item_cart', {
         index,
         model
       })
+      this.front = true
     }
+  },
+  components: {
+    toast
   },
   filters: {
     format_number: function (value) {

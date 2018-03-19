@@ -8,7 +8,7 @@
               :key="key">
               <v-card>
                 <v-card-media
-                  :src="$store.state.mediaURL+item.picture[0]"
+                  :src="$store.state.mediaURL+item.picture"
                   height="400px">
                 </v-card-media>
                 <v-card-title primary-title>
@@ -34,22 +34,18 @@
           </v-layout>
         </v-container>
   </v-layout>
-  <toast :show="front"
-         :text="text"
-         :x="x"
-         :y="y"
-         :time="6000"></toast>
   </div>
 </template>
 
 <script>
-// import {HTTP} from './../services'
+import {HTTP} from './../services'
 import toast from './toast'
 
 export default {
-  name: 'container',
+  name: 'hats',
   data () {
     return {
+      msg: 'Welcome to Your Vue.js App',
       products: [],
       token: '',
       text: 'El producto fue agregado.',
@@ -60,20 +56,25 @@ export default {
     }
   },
   mounted () {
-    this.products = this.$store.state.products
-  },
-  components: {
-    toast
+    this.products = this.$store.getters.get_hats
   },
   methods: {
+    get_products () {
+      HTTP.get('/hats').then(result => {
+        this.products = result.data
+      }, error => {
+        console.error(error)
+      })
+    },
     add_item_cart (index, model) {
-      this.front = false
       this.items = this.$store.dispatch('add_item_cart', {
         index,
         model
       })
-      this.front = true
     }
+  },
+  components: {
+    toast
   },
   filters: {
     format_number: function (value) {

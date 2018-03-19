@@ -3,6 +3,8 @@ import Vuex from 'vuex'
 import VueResources from 'vue-resource'
 // baseURL: `http://mmi.cdhyt.org/api/`,
 // baseURL: `http://mmi.tests/api/`,
+import {HTTP} from './../services'
+
 Vue.use(VueResources)
 Vue.use(Vuex)
 
@@ -12,6 +14,7 @@ const store = new Vuex.Store({
     language_accept: 'es',
     isAuthenticated: false,
     cart: [],
+    products: [],
     URL: 'http://mmi.tests/',
     baseURL: '',
     mediaURL: '',
@@ -29,6 +32,30 @@ const store = new Vuex.Store({
     totalItemCart: state => {
       return state.cart.length
     },
+    get_products: state => {
+      return state.products
+    },
+    get_bags: state => {
+      if (localStorage.getItem('products')) {
+        var filtrados = state.products.filter((item) => item.category === 'Bolsos')
+        return filtrados
+      }
+      return []
+    },
+    get_shoes: state => {
+      if (localStorage.getItem('products')) {
+        var filtrados = state.products.filter((item) => item.category === 'Zapatos')
+        return filtrados
+      }
+      return []
+    },
+    get_hats: state => {
+      if (localStorage.getItem('products')) {
+        var filtrados = state.products.filter((item) => item.category === 'Sombreros')
+        return filtrados
+      }
+      return []
+    },
     isAuthenticated: state => {
       return state.isAuthenticated
     },
@@ -39,7 +66,8 @@ const store = new Vuex.Store({
   actions: {
     auth_api () {
       if (!localStorage.getItem('token')) {
-        Vue.http.post('http://mmi.cdhyt.org/api-token-auth/', {'email': 'admin@admin.com', 'password': 'qwerty123'}
+        console.log(URL)
+        Vue.http.post(this.state.URL + 'api-token-auth/', {'email': 'admin@admin.com', 'password': 'qwerty123'}
         ).then(result => {
           localStorage.setItem('token', result.body.token)
         }, error => {
@@ -57,6 +85,19 @@ const store = new Vuex.Store({
         localStorage.setItem('mediaURL', this.state.URL + 'media/')
       }
       this.state.mediaURL = localStorage.getItem('mediaURL')
+      if (!localStorage.getItem('products')) {
+        let self = this
+        Vue.http.get(this.state.baseURL + 'products/', {headers: {'Authorization': 'JWT ' + localStorage.getItem('token')}}).then(result => {
+          self.state.products = result.data
+          localStorage.setItem('products', JSON.stringify(self.state.products))
+          console.log(self.state.products)
+        }, error => {
+          console.error(error)
+        })
+      }
+      if (localStorage.getItem('products')) {
+        this.state.products = JSON.parse(localStorage.getItem('products'))
+      }
     },
     login ({commit}, payload) {
       commit('isAuthenticated', payload)
@@ -65,6 +106,12 @@ const store = new Vuex.Store({
       if (localStorage.getItem('cart')) {
         this.state.cart = JSON.parse(localStorage.getItem('cart'))
         return this.state.cart
+      }
+    },
+    get_products () {
+      if (localStorage.getItem('products')) {
+        this.state.products = JSON.parse(localStorage.getItem('products'))
+        return this.state.products
       }
     },
     remove_item_cart ({ commit }, key) {
@@ -88,7 +135,7 @@ const store = new Vuex.Store({
       state.isAuthenticated = payload.isAuthenticated
     },
     add_item_cart (state, payload) {
-      const record = state.cart.find(item => item.index === payload.index)
+      const record = state.cart.find(item => item.product.id === payload.model.id)
       payload.model.quantity = 1
       if (!record) {
         state.cart.push({

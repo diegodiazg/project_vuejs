@@ -31,16 +31,16 @@
           <v-btn flat >Collection</v-btn>
         </v-flex>
         <v-flex xs12 sm12 md1>
-          <v-btn flat >Bags</v-btn>
+          <v-btn flat to="/bags" >Bags</v-btn>
         </v-flex>
         <v-flex xs12 sm12 md1>
-          <v-btn flat >Shooes</v-btn>
+          <v-btn flat  to="/shoes" >Shoes</v-btn>
         </v-flex>
         <v-flex xs12 sm12 md1>
-          <v-btn flat >Hats</v-btn>
+          <v-btn flat to="/hats">Hats</v-btn>
         </v-flex>
         <v-flex xs12 sm12 md1>
-          <v-btn flat to="/invoices" >Accesorios</v-btn>
+          <v-btn flat to="/invoices" >Facturas</v-btn>
         </v-flex>
         <v-flex xs12 sm12 md1>
           <v-btn flat to="/blog">Blog</v-btn>

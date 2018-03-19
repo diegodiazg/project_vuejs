@@ -1,86 +1,88 @@
 <template>
-  <v-footer height="auto">
-    <v-flex xs12 sm12>
-      <v-card >
-        <v-card-title class="red white--text">
-          <strong class="subheading">Get connected with us on social networks!</strong>
-          <v-btn
-            v-for="icon in icons"
-            :key="icon"
-            icon
-            dark
-            class="mx-3"
-          >
-            <v-icon size="24px">{{ icon }}</v-icon>
-          </v-btn>
-        </v-card-title>
-        <v-card-text class="blue">
-          <v-layout>
-            <v-flex
-              v-for="(col, i) in rows"
-              :key="i"
-              xs3
-            >
-              <span class="body-2" v-text="col.title.toUpperCase()"/>
-              <div
-                v-for="(child, i) in col.children"
-                :key="i"
-                v-text="child"
-              />
-            </v-flex>
-            <v-flex xs3 layout column>
-              <span class="body-2">CONTACT</span>
-              <div>
-                <v-icon size="18px" class="mr-3">fa-home</v-icon>
-                New York, NY 10012, US
-              </div>
-              <div>
-                <v-icon size="18px" class="mr-3">fa-envelope</v-icon>
-                info@info.com
-              </div>
-              <div>
-                <v-icon size="18px" class="mr-3">fa-phone</v-icon>
-                + 01 234 567 88
-              </div>
-              <div>
-                <v-icon size="18px" class="mr-3">fa-print</v-icon>
-                + 01 234 567 89
-              </div>
+  <div>
+   <v-layout column>
+        <v-container fluid grid-list-md>
+          <v-layout row wrap>
+            <v-flex xs12 md4
+              v-for="(item, key) in products"
+              :key="key">
+              <v-card>
+                <v-card-media
+                  :src="$store.state.mediaURL+item.picture"
+                  height="400px">
+                </v-card-media>
+                <v-card-title primary-title>
+                  <div>
+                    <div class="headline">{{item.name}}</div>
+                      <span class="grey--text">{{item.brand}} - Q {{item.price_sell|format_number}}</span>
+                  </div>
+                </v-card-title>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn icon>
+                    <v-icon>favorite</v-icon>
+                  </v-btn>
+                  <v-btn icon @click="add_item_cart(key, item)">
+                    <v-icon>shopping_cart</v-icon>
+                  </v-btn>
+                  <v-btn icon>
+                    <v-icon>share</v-icon>
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
             </v-flex>
           </v-layout>
-        </v-card-text>
-        <v-card-actions class="yellow justify-center">
-          &copy;2018 — <strong>Mi Moda Internacional</strong>
-        </v-card-actions>
-      </v-card>
-    </v-flex>
-  </v-footer>
+        </v-container>
+  </v-layout>
+  </div>
 </template>
 
 <script>
+import {HTTP} from './../services'
+import toast from './toast'
+
 export default {
-  name: 'pie',
-  data: () => ({
-    icons: ['fa-facebook', 'fa-twitter', 'fa-google-plus', 'fa-linkedin', 'fa-instagram'],
-    rows: [
-      {
-        title: 'Company Name',
-        children: ['Here you can use rows and columns here to organize your footer content. Lorem ipsum dolor sit amet, consectetur adipisicing elit']
-      },
-      {
-        title: 'Products',
-        children: ['MDBootstrap', 'MDWordPress', 'BrandFlow', 'Bootstrap Angular']
-      },
-      {
-        title: 'Useful Links',
-        children: ['Your account', 'Become an Affiliate', 'Shipping Rates', 'Helper']
-      }
-    ]
-  })
+  name: 'shoes',
+  data () {
+    return {
+      msg: 'Welcome to Your Vue.js App',
+      products: [],
+      token: '',
+      text: 'El producto fue agregado.',
+      timeout: 6000,
+      front: false,
+      x: 'top',
+      y: 'right'
+    }
+  },
+  mounted () {
+    // this.auth_api()
+    this.products = this.$store.getters.get_shoes
+  },
+  methods: {
+    get_products () {
+      HTTP.get('/shoes').then(result => {
+        this.products = result.data
+      }, error => {
+        console.error(error)
+      })
+    },
+    add_item_cart (index, model) {
+      this.items = this.$store.dispatch('add_item_cart', {
+        index,
+        model
+      })
+    }
+  },
+  components: {
+    toast
+  },
+  filters: {
+    format_number: function (value) {
+      if (!value) return ''
+      return isNaN(value) ? 0 : parseFloat(value).toFixed(2)
+    }
+  }
 }
 </script>
-
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
-</style>

@@ -12,6 +12,7 @@
               v-for="(n, key) in items"
               :key="key"
             >
+            <router-link :to="'/blog/'+n.id">
               <v-card flat tile>
                 <v-card-media v-if="n.picture_obj[0]"
                   :src="$store.state.URL+n.picture_obj[0].url"
@@ -19,6 +20,7 @@
                 >
                 </v-card-media>
               </v-card>
+            </router-link>
             </v-flex>
           </v-layout>
         </v-container>

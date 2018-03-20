@@ -1,116 +1,44 @@
 <template>
-  <div class="text-xs-center">
-    <v-menu
-      :close-on-content-click="false"
-      :nudge-width="200"
-      v-model="menu"
-    >
-      <v-btn flat class='white--text'  slot="activator">Cart shopping</v-btn>
-      <v-card>
-        <v-list>
-          <v-list-tile avatar>
-            <v-list-tile-content>
-              <v-list-tile-title>Products</v-list-tile-title>
-              <v-list-tile-sub-title>Cart shopping</v-list-tile-sub-title>
-            </v-list-tile-content>
-            <v-list-tile-action>
-              <v-btn
-                icon
-                :class="fav ? 'red--text' : ''"
-                @click="fav = !fav"
-              >
-                <v-icon>favorite</v-icon>
-              </v-btn>
-            </v-list-tile-action>
-          </v-list-tile>
-        </v-list>
-        <v-divider></v-divider>
-        <v-list v-for="(it, key) in items" :key="key">
-          <v-list-tile>
-            <v-list-tile-avatar>
-              <img :src="'http://mmi.cdhyt.org/media/'+it.product.picture" :alt="it.product.name">
-            </v-list-tile-avatar>
-            <v-list-tile-content>
-              <v-list-tile-title v-html="it.product.name"> </v-list-tile-title>
-              <v-list-tile-sub-title v-html="it.product.brand"></v-list-tile-sub-title>
-            </v-list-tile-content>
-            <v-list-tile-action>
-            </v-list-tile-action>
-              <v-btn flat > qty  {{it.quantity|format_number}}</v-btn>
-              <v-btn flat > Q {{ it.product.price_sell|format_number}}</v-btn>
-            <v-list-tile-action>
-              <v-btn
-                icon
-                @click="removeItem(key)"
-              >
-                <v-icon>delete</v-icon>
-              </v-btn>
-            </v-list-tile-action>
-          </v-list-tile>
-        </v-list>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn flat > {{ totalItemCart}}</v-btn>
-          <v-btn flat > {{ TotalImportCart|format_number}}</v-btn>
-          <v-btn flat @click="menu = false">Cancel</v-btn>
-          <v-btn color="primary" flat @click="menu = false">Save</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-menu>
+  <div>
+  <v-carousel hide-controls>
+    <v-carousel-item v-for="(item,i) in product.picture" :src="$store.state.mediaURL+item" :key="i"></v-carousel-item>
+  </v-carousel>
+  <a :href="$store.state.mediaURL+product.picture[0]"></a>
   </div>
 </template>
+
 <script>
+import {HTTP} from './../services'
+
 export default {
-  name: 'cart',
+  name: 'detailproduct',
   props: {
     item: Object
   },
   data () {
     return {
-      items: [],
-      total: 0,
-      total_item: 0,
-      fav: true,
-      menu: false,
-      message: false,
-      hints: true
+      product: []
     }
   },
   mounted () {
-    this.items = []
-    this.items = this.$store.dispatch('get_car_item')
-  },
-  updated () {
-    this.items = this.$store.state.cart
+    this.get_products()
   },
   methods: {
-    list () {
-      // this.items = this.$store.dispatch('get_car_item')
-      this.items = this.$store.state.cart
-    },
-    delete () {
-    },
-    add (index, model) {
-      this.set(this.items, index, model)
-    },
-    removeItem: function (key, event) {
-      this.items = this.$store.dispatch('remove_item_cart', {
-        key
-      })
+    get_products () {
+      let self = this
+      HTTP.get('products/' + this.$route.params.id)
+        .then(function (response) {
+          self.product = response.data
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
     }
   },
   filters: {
     format_number: function (value) {
       if (!value) return ''
       return isNaN(value) ? 0 : parseFloat(value).toFixed(2)
-    }
-  },
-  computed: {
-    TotalImportCart () {
-      return this.$store.getters.TotalImportCart
-    },
-    totalItemCart () {
-      return this.$store.getters.totalItemCart
     }
   }
 }

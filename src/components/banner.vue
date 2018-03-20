@@ -7,7 +7,9 @@
            <v-layout row >
              <v-flex xs7 sm7 md7 lg7 xl7>
               <div>
-                <div class="headline">{{item.name}}</div>
+                <div class="headline">
+                  <router-link :to="'/product/'+item.id"> {{item.name}}</router-link>
+                </div>
                 <div>{{item.collection}}</div>
               </div>
             </v-flex>

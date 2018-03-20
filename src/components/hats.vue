@@ -13,8 +13,10 @@
                 </v-card-media>
                 <v-card-title primary-title>
                   <div>
-                    <div class="headline">{{item.name}}</div>
-                      <span class="grey--text">{{item.brand}} - Q {{item.price_sell|format_number}}</span>
+                    <div class="headline">
+                    <router-link :to="'/product/'+item.id"> {{item.name}}</router-link>
+                  </div>
+                  <span class="grey--text">{{item.brand}} - Q {{item.price_sell|format_number}}</span>
                   </div>
                 </v-card-title>
                 <v-card-actions>

@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import VueResources from 'vue-resource'
 // baseURL: `http://mmi.cdhyt.org/api/`,
 // baseURL: `http://mmi.tests/api/`,
-import {HTTP} from './../services'
+// import {HTTP} from './../services'
 
 Vue.use(VueResources)
 Vue.use(Vuex)

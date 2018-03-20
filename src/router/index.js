@@ -8,7 +8,8 @@ import bags from '@/components/bags'
 import shoes from '@/components/shoes'
 import login from '@/components/login'
 import contact from '@/components/contact'
-import productDetail from '@/components/productDetail'
+// import productDetail from '@/components/productDetail'
+import detailproduct from '@/components/detailproduct'
 import blogDetail from '@/components/blogDetail'
 import offert from '@/components/offert'
 import container from '@/components/container'
@@ -16,6 +17,7 @@ import banner from '@/components/banner'
 import authCallback from '@/components/authCallback'
 import invoices from '@/components/invoices'
 import hats from '@/components/hats'
+import invoicedetail from '@/components/invoicedetail'
 // import app from '@/App'
 
 Vue.use(Router)
@@ -64,9 +66,14 @@ export default new Router({
       component: checkout
     },
     {
-      path: '/product/:id ',
+      path: '/product/:id',
       name: 'detailproduct',
-      component: productDetail
+      component: detailproduct
+    },
+    {
+      path: '/invoice/:id',
+      name: 'invoicedetail',
+      component: invoicedetail
     },
     {
       path: '/shoes',
@@ -84,7 +91,7 @@ export default new Router({
       component: blog
     },
     {
-      path: '/blog/:id ',
+      path: '/blog/:id',
       name: 'detailblog',
       component: blogDetail
     },

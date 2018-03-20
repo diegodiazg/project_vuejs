@@ -17,7 +17,7 @@
             {{ props.item.created_at|format_date}}
           </td>
           <td class="justify-center layout px-0">
-           <v-btn icon class="mx-0" @click="deleteItem(props.item)">
+           <v-btn :to="'invoice/'+props.item.id" icon class="mx-0" @click="deleteItem(props.item)">
              <v-icon color="blue">list</v-icon>
            </v-btn>
           </td>

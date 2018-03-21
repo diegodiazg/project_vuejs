@@ -7,24 +7,41 @@
 </template>
 
 <script>
+import {HTTP} from './../services'
+
 export default {
-  name: 'detailproduct',
-  props: {
-    item: Object
-  },
+  name: 'detailinvoice',
   data () {
     return {
-      items: []
+      item: [],
+      detail: []
     }
   },
   mounted () {
-    console.log('djsdlkjfalksjdñl deiog  dpero no lseuqp ')
-    console.log(this.$route.params.id)
-  },
-  updated () {
-    console.log('amfañlsm')
+    this.get_detail()
   },
   methods: {
+    get_detail () {
+      let self = this
+      HTTP.get('invoices/' + this.$route.params.id)
+        .then(function (response) {
+          self.item = response.data
+          self.get_invoice_detail()
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    },
+    get_invoice_detail () {
+      let self = this
+      HTTP.get('invoice_detail/' + this.$route.params.id)
+        .then(function (response) {
+          self.detail = response.data
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    }
   },
   filters: {
     format_number: function (value) {

@@ -8,7 +8,7 @@
               :key="key">
               <v-card>
                 <v-card-media
-                  :src="$store.state.mediaURL+item.picture"
+                  :src="$store.state.mediaURL+item.picture[1]"
                   height="400px">
                 </v-card-media>
                 <v-card-title primary-title>

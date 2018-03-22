@@ -16,6 +16,7 @@ import container from '@/components/container'
 import banner from '@/components/banner'
 import authCallback from '@/components/authCallback'
 import invoices from '@/components/invoices'
+import shippings from '@/components/shippings'
 import hats from '@/components/hats'
 import invoicedetail from '@/components/invoicedetail'
 // import app from '@/App'
@@ -44,6 +45,11 @@ export default new Router({
       path: '/invoices',
       name: 'invoices',
       component: invoices
+    },
+    {
+      path: '/shippings',
+      name: 'shippings',
+      component: shippings
     },
     {
       path: '/login',

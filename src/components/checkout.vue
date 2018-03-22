@@ -44,6 +44,7 @@
           </v-card-text>
           <v-card-text>
             <v-text-field label="CVC" v-model="cvc"></v-text-field>
+            <v-text-field label="Expired date" mask="date" v-model="expired_date"></v-text-field>
           </v-card-text>
         </v-container>
          <PayPal
@@ -131,6 +132,7 @@ export default {
       total: '',
       term_and_condition: '',
       number_credit_cart: '4444444444444444',
+      expired_date: '121212',
       cvc: '',
       paypal: false
     }

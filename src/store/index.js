@@ -85,19 +85,17 @@ const store = new Vuex.Store({
         localStorage.setItem('mediaURL', this.state.URL + 'media/')
       }
       this.state.mediaURL = localStorage.getItem('mediaURL')
-      if (!localStorage.getItem('products')) {
-        let self = this
-        Vue.http.get(this.state.baseURL + 'products/', {headers: {'Authorization': 'JWT ' + localStorage.getItem('token')}}).then(result => {
-          self.state.products = result.data
-          localStorage.setItem('products', JSON.stringify(self.state.products))
-          console.log(self.state.products)
-        }, error => {
-          console.error(error)
-        })
-      }
-      if (localStorage.getItem('products')) {
-        this.state.products = JSON.parse(localStorage.getItem('products'))
-      }
+
+      let self = this
+      Vue.http.get(this.state.baseURL + 'products/', {headers: {'Authorization': 'JWT ' + localStorage.getItem('token')}}).then(result => {
+        self.state.products = result.data
+        localStorage.setItem('products', JSON.stringify(self.state.products))
+        // self.state.products = JSON.parse(localStorage.getItem('products'))
+        Vue.set(self.state.products, JSON.parse(localStorage.getItem('products')))
+      }, error => {
+        console.error(error)
+      })
+      // this.state.products = JSON.parse(localStorage.getItem('products'))
     },
     login ({commit}, payload) {
       commit('isAuthenticated', payload)

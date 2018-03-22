@@ -49,7 +49,7 @@
           <v-btn flat to="/contact">Contact</v-btn>
         </v-flex>
         <v-flex xs12 sm12 md1>
-          <v-btn flat to="/invoices" >Compras</v-btn>
+          <v-btn flat to="/shippings" >Shppings</v-btn>
         </v-flex>
         </v-toolbar>
       </v-layout>

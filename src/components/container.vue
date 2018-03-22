@@ -63,6 +63,11 @@ export default {
   },
   mounted () {
     this.products = this.$store.state.products
+    if (this.products.length === 0) {
+      if (localStorage.getItem('products')) {
+        this.products = JSON.parse(localStorage.getItem('products'))
+      }
+    }
   },
   components: {
     toast

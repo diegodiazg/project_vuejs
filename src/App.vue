@@ -28,7 +28,7 @@
            dark color="primary"
         >
         <v-flex xs12 sm12 md1 >
-          <v-btn flat >Collection</v-btn>
+          <v-btn flat to="/collections">Collection</v-btn>
         </v-flex>
         <v-flex xs12 sm12 md1>
           <v-btn flat to="/bags" >Bags</v-btn>

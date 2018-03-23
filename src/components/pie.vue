@@ -31,19 +31,19 @@
             <v-flex xs3 layout column>
               <span class="body-2">CONTACT</span>
               <div>
-                <v-icon size="18px" class="mr-3">fa-home</v-icon>
+                <v-icon size="18px" class="mr-3">watch-later</v-icon>
                 New York, NY 10012, US
               </div>
               <div>
-                <v-icon size="18px" class="mr-3">fa-envelope</v-icon>
+                <v-icon size="18px" class="mr-3">settings_phone</v-icon>
                 info@info.com
               </div>
               <div>
-                <v-icon size="18px" class="mr-3">fa-phone</v-icon>
+                <v-icon size="18px" class="mr-3">settings_phone</v-icon>
                 + 01 234 567 88
               </div>
               <div>
-                <v-icon size="18px" class="mr-3">fa-print</v-icon>
+                <v-icon size="18px" class="mr-3">settings_phone</v-icon>
                 + 01 234 567 89
               </div>
             </v-flex>
@@ -61,7 +61,7 @@
 export default {
   name: 'pie',
   data: () => ({
-    icons: ['fa-facebook', 'fa-twitter', 'fa-google-plus', 'fa-linkedin', 'fa-instagram'],
+    icons: ['phone', 'message', 'create', 'drafts', 'flag'],
     rows: [
       {
         title: 'Company Name',

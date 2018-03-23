@@ -10,18 +10,16 @@
               </v-toolbar>
               <v-card-text>
                 <v-form>
-                  <v-text-field prepend-icon="person" name="nombre" label="Nombre" type="text"></v-text-field>
-                  <v-text-field prepend-icon="email" label="E-mail" v-model="email" :error-messages="emailErrors"
-                    @input="$v.email.$touch()"
-                    @blur="$v.email.$touch()"
+                  <v-text-field prepend-icon="person" name="nombre" v-model="name" label="Nombre" type="text"></v-text-field>
+                  <v-text-field prepend-icon="email" label="E-mail" v-model="email"
                     required
                     ></v-text-field>
-                  <v-text-field  multi-line name="mensaje" label="Mensaje" type="text"></v-text-field>
+                  <v-text-field  multi-line name="mensaje" v-model="message" label="Mensaje" type="text"></v-text-field>
                 </v-form>
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="primary">Enviar</v-btn>
+                <v-btn @click="submit" color="primary">Enviar</v-btn>
               </v-card-actions>
             </v-card>
           </v-flex>
@@ -33,6 +31,7 @@
 
 import { validationMixin } from 'vuelidate'
 import { required, maxLength, email } from 'vuelidate/lib/validators'
+import {HTTP} from './../services'
 
 export default {
   mixins: [validationMixin],
@@ -46,19 +45,30 @@ export default {
   data () {
     return {
       name: '',
-      email: ''
+      email: '',
+      message: ''
     }
   },
   methods: {
     submit () {
-      this.$v.$touch()
+      let self = this
+      HTTP.post('/contact/', {
+        name: this.name,
+        email: this.email,
+        comment: this.message
+      })
+        .then(function (response) {
+          console.log(response)
+          self.clear()
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
     },
     clear () {
-      this.$v.$reset()
       this.name = ''
       this.email = ''
-      this.select = null
-      this.checkbox = false
+      this.message = ''
     }
   }
 }

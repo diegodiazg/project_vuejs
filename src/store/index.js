@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import VueResources from 'vue-resource'
 // baseURL: `http://mmi.cdhyt.org/api/`,
 // baseURL: `http://mmi.tests/api/`,
-// import {HTTP} from './../services'
+import {HTTP} from './../services'
 
 Vue.use(VueResources)
 Vue.use(Vuex)
@@ -14,6 +14,7 @@ const store = new Vuex.Store({
     language_accept: 'es',
     isAuthenticated: false,
     cart: [],
+    user: [],
     products: [],
     URL: 'http://mmi.tests/',
     baseURL: '',
@@ -34,6 +35,9 @@ const store = new Vuex.Store({
     },
     get_products: state => {
       return state.products
+    },
+    get_user: state => {
+      return state.user
     },
     get_bags: state => {
       if (localStorage.getItem('products')) {
@@ -125,8 +129,23 @@ const store = new Vuex.Store({
         console.error(error)
       })
     },
+    auth_user ({commit}, payload) {
+      let self = this
+      HTTP.post(this.state.URL + 'api-token-auth/', {
+        email: payload.email,
+        password: payload.password
+      })
+        .then(function (response) {
+          self.state.isAuthenticated = true
+          store.dispatch('login', {isAuthenticated: true})
+          console.log(self.state.isAuthenticated)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    },
     login ({commit}, payload) {
-      commit('isAuthenticated', payload)
+      commit('login', payload)
     },
     get_car_item () {
       if (localStorage.getItem('cart')) {
@@ -142,6 +161,9 @@ const store = new Vuex.Store({
     },
     remove_item_cart ({ commit }, key) {
       commit('remove_item_cart', key)
+    },
+    set_user ({ commit }, key) {
+      commit('set_user', key)
     },
     set_currency ({ commit }, key) {
       commit('set_currency', key)
@@ -166,7 +188,8 @@ const store = new Vuex.Store({
     toke: state => {
       return state.toke
     },
-    isAuthenticated (state, payload) {
+    login (state, payload) {
+      console.log(payload.isAuthenticated)
       state.isAuthenticated = payload.isAuthenticated
     },
     add_item_cart (state, payload) {
@@ -205,6 +228,10 @@ const store = new Vuex.Store({
     set_currency (state, key) {
       this.state.currency = key
       localStorage.setItem('currency', this.state.currency)
+    },
+    set_user (state, key) {
+      this.state.user = key
+      localStorage.setItem('user', this.state.user)
     }
   }
 })

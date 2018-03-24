@@ -20,6 +20,7 @@ import shippings from '@/components/shippings'
 import hats from '@/components/hats'
 import invoicedetail from '@/components/invoicedetail'
 import collections from '@/components/collections'
+import register from '@/components/register'
 // import app from '@/App'
 
 Vue.use(Router)
@@ -51,6 +52,11 @@ export default new Router({
       path: '/shippings',
       name: 'shippings',
       component: shippings
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: register
     },
     {
       path: '/collections',

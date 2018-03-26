@@ -30,6 +30,7 @@
 </template>
 
 <script>
+
 export default {
   data: () => ({
     drawer: null,
@@ -42,7 +43,8 @@ export default {
   methods: {
     authenticate: function (provider) {
       this.$auth.authenticate(provider).then(function () {
-        // Execute application logic after successful social authentication
+      // Execute application logic after successful social authentication
+        this.$store.dispatch('login', {'isAuthenticated': true})
       })
     },
     auth () {

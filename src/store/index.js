@@ -189,7 +189,6 @@ const store = new Vuex.Store({
       return state.toke
     },
     login (state, payload) {
-      console.log(payload.isAuthenticated)
       state.isAuthenticated = payload.isAuthenticated
     },
     add_item_cart (state, payload) {
@@ -212,7 +211,6 @@ const store = new Vuex.Store({
     },
     set_color_item_cart (state, payload) {
       const record = state.cart.find(item => item.product.id === payload.id)
-      console.log(payload)
       record.product.color = payload.color
       localStorage.setItem('cart', JSON.stringify(this.state.cart))
     },

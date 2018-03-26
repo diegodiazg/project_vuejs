@@ -39,7 +39,7 @@
         <v-flex xs12 sm12 md1>
           <v-btn flat to="/hats">Hats</v-btn>
         </v-flex>
-        <v-flex xs12 sm12 md1>
+        <v-flex xs12 sm12 md1 v-if="login">
           <v-btn flat to="/invoices" >Facturas</v-btn>
         </v-flex>
         <v-flex xs12 sm12 md1>
@@ -48,7 +48,7 @@
         <v-flex xs12 sm12 md1>
           <v-btn flat to="/contact">Contact</v-btn>
         </v-flex>
-        <v-flex xs12 sm12 md1>
+        <v-flex xs12 sm12 md1 v-if="login">
           <v-btn flat to="/shippings" >Shppings</v-btn>
         </v-flex>
         </v-toolbar>
@@ -79,7 +79,12 @@ import cart from './components/cart'
 
 export default {
   name: 'App',
-  components: { pie, cart }
+  components: { pie, cart },
+  computed: {
+    login () {
+      return this.$store.getters.isAuthenticated
+    }
+  }
 }
 </script>
 

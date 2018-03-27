@@ -28,7 +28,32 @@
                     <v-icon>shopping_cart</v-icon>
                   </v-btn>
                   <v-btn icon>
-                    <v-icon>share</v-icon>
+                    <v-menu bottom left>
+                      <v-btn icon slot="activator">
+                        <v-icon>share</v-icon>
+                      </v-btn>
+                      <v-list>
+                         <social-sharing :url="$store.state.URL+'/product/'+item.id"
+                            :title="item.name+' - '+item.description"
+                            :description="item.name+' - '+item.description"
+                            :quote="item.name+' - '+item.description"
+                            hashtags="mmi,moda,chiqumula"
+                            twitter-user="mmi"
+                            inline-template>
+                            <v-list-tile >
+                              <v-list-tile-title> <network network="facebook">
+                                <i class="fa fa-facebook"></i> Facebook
+                              </network></v-list-tile-title>
+                              <v-list-tile-title> <network network="googleplus">
+                                <i class="fa fa-google-plus"></i> Google +
+                              </network> </v-list-tile-title>
+                              <v-list-tile-title> <network network="twitter">
+                                <i class="fa fa-twitter"></i> Twitter
+                              </network></v-list-tile-title>
+                            </v-list-tile>
+                          </social-sharing>
+                      </v-list>
+                    </v-menu>
                   </v-btn>
                 </v-card-actions>
               </v-card>

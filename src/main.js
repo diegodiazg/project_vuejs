@@ -21,16 +21,17 @@ Vue.use(VueAuthenticate, {
   providers: {
     github: {
       clientId: '5a707560ae7360d77587',
-      redirectUri: 'http://localhost:8080' // Your client app URL
+      redirectUri: 'hhttp://mmi.cdhyt.org/app/accounts/github/login/callback/' // Your client app URL
     },
     facebook: {
       clientId: '1311542472191561'
       // redirectUri: 'http://localhost:8080' // Your client app URL
     },
     google: {
-      clientId: '112541925459-qd51m00s2ss5m6pekjkefj01eujetpgq.apps.googleusercontent.com',
+      clientId: '112541925459-qd51m00s2ss5m6pekjkefj01eujetpgq.apps.googleusercontent.com'
       // clientId: '112541925459-u8730o5l0n5nst1gf28a4tfo8g2damoi.apps.googleusercontent.com',
-      redirectUri: 'http://mmi.cdhyt.org/app/accounts/google/login/callback/' // Your client app URL
+      // redirectUri: 'http://mmi.cdhyt.org/app/accounts/google/login/callback/' // Your client app URL
+      // redirectUri: 'http://mmi.cdhyt.org/api/callback_paypal/'
     }
   },
   bindRequestInterceptor: function () {

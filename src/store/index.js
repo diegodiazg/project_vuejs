@@ -16,7 +16,7 @@ const store = new Vuex.Store({
     cart: [],
     user: [],
     products: [],
-    URL: 'http://mmi.tests/',
+    URL: 'http://mmi.cdhyt.org/',
     baseURL: '',
     mediaURL: '',
     currency: 'USD',

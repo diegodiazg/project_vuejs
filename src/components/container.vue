@@ -24,7 +24,7 @@
                   <v-btn icon>
                     <v-icon>favorite</v-icon>
                   </v-btn>
-                  <v-btn icon @click="add_item_cart(key, item)">
+                  <v-btn icon @click="add_item_cart(item)">
                     <v-icon>shopping_cart</v-icon>
                   </v-btn>
                   <v-btn icon>
@@ -33,7 +33,7 @@
                         <v-icon>share</v-icon>
                       </v-btn>
                       <v-list>
-                         <social-sharing :url="$store.state.URL+'/product/'+item.id"
+                         <social-sharing :url="url+'/product/'+item.id"
                             :title="item.name+' - '+item.description"
                             :description="item.name+' - '+item.description"
                             :quote="item.name+' - '+item.description"
@@ -60,18 +60,25 @@
             </v-flex>
           </v-layout>
         </v-container>
-  </v-layout>
-  <toast :show="front"
-         :text="text"
-         :x="x"
-         :y="y"
-         :time="6000"></toast>
+      </v-layout>
+      <v-snackbar
+        :timeout="timeout"
+        :top="y === 'top'"
+        :bottom="y === 'bottom'"
+        :right="x === 'right'"
+        :left="x === 'left'"
+        :multi-line="mode === 'multi-line'"
+        :vertical="mode === 'vertical'"
+        v-model="snackbar"
+        >
+        {{ text }}
+        <v-btn flat color="pink" @click.native="snackbar = false">Cerrar</v-btn>
+      </v-snackbar>
   </div>
 </template>
 
 <script>
 // import {HTTP} from './../services'
-import toast from './toast'
 
 export default {
   name: 'container',
@@ -79,14 +86,16 @@ export default {
     return {
       products: [],
       token: '',
-      text: 'El producto fue agregado.',
+      snackbar: false,
+      y: 'top',
+      x: 'right',
+      mode: '',
       timeout: 6000,
-      front: false,
-      x: 'top',
-      y: 'right'
+      text: 'Hello, I\'m a snackbar'
     }
   },
   mounted () {
+    console.log(this.$store.state.URL)
     this.products = this.$store.state.products
     if (this.products.length === 0) {
       if (localStorage.getItem('products')) {
@@ -94,17 +103,16 @@ export default {
       }
     }
   },
-  components: {
-    toast
-  },
   methods: {
-    add_item_cart (index, model) {
-      this.front = false
-      this.items = this.$store.dispatch('add_item_cart', {
-        index,
-        model
-      })
-      this.front = true
+    add_item_cart (model) {
+      this.items = this.$store.dispatch('add_item_cart', model)
+      this.snackbar = true
+      this.text = 'El producto fue agregado.'
+    }
+  },
+  computed: {
+    url () {
+      return 'http://web.cdhyt.org/'
     }
   },
   filters: {

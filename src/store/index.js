@@ -26,7 +26,7 @@ const store = new Vuex.Store({
     TotalImportCart: state => {
       var total = 0
       state.cart.forEach(function (item) {
-        total += item.product.price_sell * item.product.quantity
+        total += item.price_sell * item.quantity
       })
       return total
     },
@@ -70,29 +70,56 @@ const store = new Vuex.Store({
     get_quantity_producto_in_cart: (state) => (id) => {
       if (localStorage.getItem('cart')) {
         state.cart = JSON.parse(localStorage.getItem('cart'))
-        const record = state.cart.find(item => item.product.id === id)
-        return record.product.quantity
+        if (state.cart.length > 0) {
+          const record = state.cart.find(item => item.id === id)
+          if (record) {
+            return record.quantity
+          }
+          return 0
+        }
+        return 0
       }
       return 0
     },
     get_color_producto_in_cart: (state) => (id) => {
       if (localStorage.getItem('cart')) {
         state.cart = JSON.parse(localStorage.getItem('cart'))
-        const record = state.cart.find(item => item.product.id === id)
-        return record.product.color
+        if (state.cart.length > 0) {
+          const record = state.cart.find(item => item.id === id)
+          if (record) {
+            return record.color
+          }
+          return ''
+        }
+        return ''
       }
       return ''
     },
     get_size_producto_in_cart: (state) => (id) => {
       if (localStorage.getItem('cart')) {
         state.cart = JSON.parse(localStorage.getItem('cart'))
-        const record = state.cart.find(item => item.product.id === id)
-        return record.product.size
+        if (state.cart.length > 0) {
+          const record = state.cart.find(item => item.id === id)
+          if (record) {
+            return record.size
+          }
+          return ''
+        }
+        return ''
       }
       return ''
     },
     isAuthenticated: state => {
       return state.isAuthenticated
+    },
+    is_in_cart: (state) => (id) => {
+      if (state.cart.length > 0) {
+        if (state.cart.find(item => item.id === id)) {
+          return true
+        }
+        return false
+      }
+      return false
     },
     getCurrency: state => {
       return state.currency
@@ -138,7 +165,6 @@ const store = new Vuex.Store({
         .then(function (response) {
           self.state.isAuthenticated = true
           store.dispatch('login', {isAuthenticated: true})
-          console.log(self.state.isAuthenticated)
         })
         .catch(function (error) {
           console.log(error)
@@ -169,10 +195,7 @@ const store = new Vuex.Store({
       commit('set_currency', key)
     },
     add_item_cart ({ commit }, payload) {
-      commit('add_item_cart', {
-        index: payload.index,
-        model: payload.model
-      })
+      commit('add_item_cart', payload)
     },
     set_color_item_cart ({ commit }, payload) {
       commit('set_color_item_cart', payload)
@@ -192,31 +215,32 @@ const store = new Vuex.Store({
       state.isAuthenticated = payload.isAuthenticated
     },
     add_item_cart (state, payload) {
-      const record = state.cart.find(item => item.product.id === payload.model.id)
-      payload.model.quantity = 1
+      const record = state.cart.find(item => item.id === payload.id)
       if (!record) {
-        state.cart.push({
-          index: payload.index,
-          product: payload.model
-        })
+        payload.quantity = 1
+        state.cart.push(payload)
       } else {
-        record.product.quantity++
+        record.quantity++
       }
       localStorage.setItem('cart', JSON.stringify(this.state.cart))
     },
     set_quantity_item_cart (state, payload) {
-      const record = state.cart.find(item => item.product.id === payload.id)
-      record.product.quantity = payload.quantity
+      const record = state.cart.find(item => item.id === payload.id)
+      if (!record) {
+        store.dispatch('add_item_cart', payload)
+      }
+      record.quantity = payload.quantity
       localStorage.setItem('cart', JSON.stringify(this.state.cart))
     },
     set_color_item_cart (state, payload) {
-      const record = state.cart.find(item => item.product.id === payload.id)
-      record.product.color = payload.color
+      console.log(payload.color)
+      const record = state.cart.find(item => item.id === payload.id)
+      record.color = payload.color
       localStorage.setItem('cart', JSON.stringify(this.state.cart))
     },
     set_size_item_cart (state, payload) {
-      const record = state.cart.find(item => item.product.id === payload.id)
-      record.product.size = payload.size
+      const record = state.cart.find(item => item.id === payload.id)
+      record.size = payload.size
       localStorage.setItem('cart', JSON.stringify(this.state.cart))
     },
     remove_item_cart (state, key) {

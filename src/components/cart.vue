@@ -28,16 +28,16 @@
         <v-list v-for="(it, key) in items" :key="key">
           <v-list-tile>
             <v-list-tile-avatar>
-              <img :src="$store.state.mediaURL+it.product.picture[0]" :alt="it.product.name">
+              <img :src="$store.state.mediaURL+it.picture[0]" :alt="it.name">
             </v-list-tile-avatar>
             <v-list-tile-content>
-              <v-list-tile-title v-html="it.product.name"> </v-list-tile-title>
-              <v-list-tile-sub-title v-html="it.product.brand"></v-list-tile-sub-title>
+              <v-list-tile-title v-html="it.name"> </v-list-tile-title>
+              <v-list-tile-sub-title v-html="it.brand"></v-list-tile-sub-title>
             </v-list-tile-content>
             <v-list-tile-action>
             </v-list-tile-action>
-              <v-btn flat > qty  {{it.product.quantity|format_number}}</v-btn>
-              <v-btn flat > Q {{ it.product.price_sell|format_number}}</v-btn>
+              <v-btn flat > qty  {{it.quantity|format_number}}</v-btn>
+              <v-btn flat > Q {{ it.price_sell|format_number}}</v-btn>
             <v-list-tile-action>
               <v-btn
                 icon

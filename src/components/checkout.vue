@@ -8,15 +8,15 @@
         class="elevation-1"
       >
         <template slot="items" slot-scope="props">
-          <td>{{ props.item.product.name }}</td>
-          <td class="text-xs-right">{{ props.item.product.price_sell|format_number }}</td>
-          <td class="text-xs-left">{{ props.item.product.description }}</td>
+          <td>{{ props.item.name }}</td>
+          <td class="text-xs-right">{{ props.item.price_sell|format_number }}</td>
+          <td class="text-xs-left">{{ props.item.description }}</td>
           <td class="text-xs-right" style="width:20%">
             <v-text-field
               style="text-alight:right;"
-              @change="add_item_cart(props.item.index, props.item.product, value)"
+              @change="add_item_cart(props.item.index, props.item, value)"
               type="number"
-              :value="props.item.product.quantity|format_number"
+              :value="props.item.quantity|format_number"
              ></v-text-field>
           </td>
           <td class="justify-center layout px-0">
@@ -53,7 +53,7 @@
           env="sandbox"
           :client="credentials"
           v-if="paypal"
-          :items="items.product"
+          :items="items"
           :notify-url="this.$store.state.baseURL+'callback_paypal/'"
            transition="fade-transition">
           >
@@ -112,9 +112,9 @@ export default {
         production: 'remedios.paraelalma-facilitator_api1.gmail.com'
       },
       headers: [
-        {text: 'Name', value: 'product.name', 'align': 'right'},
-        {text: 'Price', value: 'product.price_sell', 'align': 'right'},
-        {text: 'Description', value: 'product.Description', 'align': 'left'},
+        {text: 'Name', value: 'name', 'align': 'right'},
+        {text: 'Price', value: 'price_sell', 'align': 'right'},
+        {text: 'Description', value: 'description', 'align': 'left'},
         {text: 'Quantity', value: 'quantity', 'align': 'right'},
         { text: 'Actions', value: 'name', sortable: false, 'align': 'right' }
       ],

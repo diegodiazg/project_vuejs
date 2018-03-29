@@ -11,14 +11,7 @@
           <td>{{ props.item.name }}</td>
           <td class="text-xs-right">{{ props.item.price_sell|format_number }}</td>
           <td class="text-xs-left">{{ props.item.description }}</td>
-          <td class="text-xs-right" style="width:20%">
-            <v-text-field
-              style="text-alight:right;"
-              @change="add_item_cart(props.item.index, props.item, value)"
-              type="number"
-              :value="props.item.quantity|format_number"
-             ></v-text-field>
-          </td>
+          <td class="text-xs-right">{{ props.item.quantity|format_number }}</td>
           <td class="justify-center layout px-0">
            <v-btn icon class="mx-0" @click="removeItem(props.item.index)">
              <v-icon color="pink">delete</v-icon>
@@ -48,7 +41,7 @@
           </v-card-text>
         </v-container>
          <PayPal
-          :amount="this.$store.getters.TotalImportCart"
+          :amount="this.TotalImportCart"
           :currency="this.$store.getters.getCurrency"
           env="sandbox"
           :client="credentials"
@@ -63,39 +56,78 @@
         <v-container>
           <v-text-field
                label="NIT"
-               v-model="name"
+               v-model="nit"
                required
              ></v-text-field>
           <v-text-field
               label="Address"
-              v-model="name"
+              v-model="address"
               required
           ></v-text-field>
           <v-text-field
                  label="Phone"
-                 v-model="name"
+                 v-model="phone"
                  required
           ></v-text-field>
           <v-text-field
                  label="Reference"
-                 v-model="name"
+                 v-model="reference"
                  required
           ></v-text-field>
           <v-checkbox
-            color="green"
+            color="pink"
             v-model="term_and_condition"
           >
             <div slot="label">
               Do you accept the
-              <a href="#" @click.stop="terms = true">terms</a>
+              <a href="#" @click.prevent='click' @click.stop="terms = true">terms</a>
               and
-              <a href="#" @click.stop="conditions = true">conditions?</a>
+              <a href="#" @click.prevent='click'  @click.stop="conditions = true">conditions?</a>
             </div>
           </v-checkbox>
         </v-container>
       </v-card>
       <v-btn outline color="indigo" @click="pay">Pay</v-btn>
     </v-flex>
+    <v-layout row justify-center>
+        <v-dialog v-model="terms" persistent max-width="290">
+          <v-card>
+            <v-card-title class="headline">Terms</v-card-title>
+            <v-card-text>Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.</v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="green darken-1" flat @click.native="terms = false">Disagree</v-btn>
+              <v-btn color="green darken-1" flat @click.native="terms = false">Agree</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+    </v-layout>
+    <v-layout row justify-center>
+        <v-dialog v-model="conditions" persistent max-width="290">
+          <v-card>
+            <v-card-title class="headline">Conditions</v-card-title>
+            <v-card-text>Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.</v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="green darken-1" flat @click.native="conditions = false">Disagree</v-btn>
+              <v-btn color="green darken-1" flat @click.native="conditions = false">Agree</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+    </v-layout>
+    <v-snackbar
+      :timeout="timeout"
+      :top="y === 'top'"
+      :bottom="y === 'bottom'"
+      :right="x === 'right'"
+      :left="x === 'left'"
+      :multi-line="mode === 'multi-line'"
+      :vertical="mode === 'vertical'"
+      v-model="snackbar"
+      >
+      {{ text }}
+      <v-btn flat color="pink" @click.native="snackbar = false">Cerrar</v-btn>
+    </v-snackbar>
   </v-layout>
 </template>
 <script>
@@ -118,7 +150,8 @@ export default {
         {text: 'Quantity', value: 'quantity', 'align': 'right'},
         { text: 'Actions', value: 'name', sortable: false, 'align': 'right' }
       ],
-      items: [],
+      terms: false,
+      conditions: false,
       value: 0,
       name: '',
       address: '',
@@ -130,18 +163,26 @@ export default {
       discount: 0,
       description: '',
       total: '',
-      term_and_condition: '',
+      term_and_condition: false,
       number_credit_cart: '4444444444444444',
       expired_date: '121212',
       cvc: '',
+      snackbar: false,
+      y: 'top',
+      x: 'right',
+      mode: '',
+      timeout: 6000,
+      text: 'Hello, I\'m a snackbar',
       paypal: false
     }
   },
   methods: {
-
     deleteItem (item) {
       const index = this.items.indexOf(item)
       confirm('Are you sure you want to delete this item?') && this.items.splice(index, 1)
+    },
+    click (e) {
+      e.preventDefault()
     },
     removeItem: function (key, event) {
       this.$swal({
@@ -153,33 +194,21 @@ export default {
         cancelButtonText: 'No'
       }).then((result) => {
         if (result) {
-          this.items = this.$store.dispatch('remove_item_cart', {
+          this.$store.dispatch('remove_item_cart', {
             key
           })
-          this.$swal(
-            'Deleted!',
-            'Your imaginary file has been deleted.',
-            'success'
-          )
-        // For more information about handling dismissals please visit
-        // https://sweetalert2.github.io/#handling-dismissals
+          this.message('success', 'Deleted!', 'El producto se ha movido del carrito.')
         } else if (result.dismiss === this.$swal.DismissReason.cancel) {
-          this.$swal(
-            'Cancelled',
-            'Your imaginary file is safe :)',
-            'error'
-          )
+          this.message('error', 'Canceled!', 'El producto se mantiene en el carrito.')
         }
       })
     },
-
-    change_value () {
-      console.log('llegue')
-    },
-    add_item_cart (index, model, value) {
-      console.log(value)
-    },
     pay () {
+      if (!this.term_and_condition) {
+        this.snackbar = true
+        this.text = 'Debes aceptar los terminos y condiciones.'
+      }
+      let self = this
       HTTP.post('/invoices/', {
         products: this.items,
         address: this.address,
@@ -192,17 +221,63 @@ export default {
         discount: this.discount
       })
         .then(function (response) {
-          console.log(response)
-          // limpoiar el carrito
+          console.log(response.data)
+          self.clear()
         })
         .catch(function (error) {
           console.log(error)
+          this.message('error')
           // mostrar errores.
         })
+    },
+    clear () {
+      this.address = ''
+      this.phone = ''
+      this.nit = ''
+      this.reference = ''
+      this.reference_number = ''
+      this.shipping = ''
+      this.description = ''
+      this.discoun = ''
+      this.term_and_condition = false
+      this.$store.dispatch('reset_cart')
+      this.message('success')
+    },
+    message (type, message, title) {
+      if (type === 'success') {
+        this.$swal({
+          type: type,
+          title: title,
+          text: message
+        })
+      }
+      if (type === 'error') {
+        this.$swal({
+          type: type,
+          title: title,
+          text: message
+        })
+      }
+      if (type === 'confirm') {
+        console.log('llegue al confir')
+        this.$swal({
+          title: 'Estas seguro?',
+          text: 'El producto se eliminará del carrito!',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Si, borrarlo!',
+          cancelButtonText: 'No'
+        }).then((result) => {
+          if (result) {
+            console.log('diego')
+            return true
+          } else if (result.dismiss === this.$swal.DismissReason.cancel) {
+            console.log('restod de un ')
+            return false
+          }
+        })
+      }
     }
-  },
-  updated () {
-    this.items = this.$store.state.cart
   },
   components: {
     PayPal
@@ -216,6 +291,9 @@ export default {
   computed: {
     TotalImportCart () {
       return this.$store.getters.TotalImportCart
+    },
+    items () {
+      return this.$store.state.cart
     }
   }
 }

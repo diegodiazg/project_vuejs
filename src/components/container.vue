@@ -84,7 +84,6 @@ export default {
   name: 'container',
   data () {
     return {
-      products: [],
       token: '',
       snackbar: false,
       y: 'top',
@@ -92,15 +91,6 @@ export default {
       mode: '',
       timeout: 6000,
       text: 'Hello, I\'m a snackbar'
-    }
-  },
-  mounted () {
-    console.log(this.$store.state.URL)
-    this.products = this.$store.state.products
-    if (this.products.length === 0) {
-      if (localStorage.getItem('products')) {
-        this.products = JSON.parse(localStorage.getItem('products'))
-      }
     }
   },
   methods: {
@@ -113,6 +103,9 @@ export default {
   computed: {
     url () {
       return 'http://web.cdhyt.org/'
+    },
+    products () {
+      return this.$store.state.products
     }
   },
   filters: {

@@ -16,7 +16,7 @@ const store = new Vuex.Store({
     cart: [],
     user: [],
     products: [],
-    URL: 'http://mmi.cdhyt.org/',
+    URL: 'http://mmi.tests/',
     baseURL: '',
     mediaURL: '',
     currency: 'USD',
@@ -135,17 +135,12 @@ const store = new Vuex.Store({
           console.error(error)
         })
       }
-      if (!localStorage.getItem('URL')) {
-        localStorage.setItem('URL', this.state.URL)
-      }
-      if (!localStorage.getItem('baseURL')) {
-        localStorage.setItem('baseURL', this.state.URL + 'api/')
-      }
+      localStorage.setItem('URL', this.state.URL)
+      localStorage.setItem('baseURL', this.state.URL + 'api/')
       this.state.baseURL = localStorage.getItem('baseURL')
-      if (!localStorage.getItem('mediaURL')) {
-        localStorage.setItem('mediaURL', this.state.URL + 'media/')
-      }
+      localStorage.setItem('mediaURL', this.state.URL + 'media/')
       this.state.mediaURL = localStorage.getItem('mediaURL')
+
       let self = this
       self.state.products = JSON.parse(localStorage.getItem('products'))
       Vue.http.get(this.state.baseURL + 'products/', {headers: {'Authorization': 'JWT ' + localStorage.getItem('token')}}).then(result => {
@@ -188,6 +183,9 @@ const store = new Vuex.Store({
     remove_item_cart ({ commit }, key) {
       commit('remove_item_cart', key)
     },
+    reset_cart ({ commit }) {
+      commit('reset_cart')
+    },
     set_user ({ commit }, key) {
       commit('set_user', key)
     },
@@ -222,6 +220,10 @@ const store = new Vuex.Store({
       } else {
         record.quantity++
       }
+      localStorage.setItem('cart', JSON.stringify(this.state.cart))
+    },
+    reset_cart (state) {
+      state.cart = []
       localStorage.setItem('cart', JSON.stringify(this.state.cart))
     },
     set_quantity_item_cart (state, payload) {

@@ -226,7 +226,7 @@ export default {
         })
         .catch(function (error) {
           console.log(error)
-          this.message('error')
+          self.message('error', 'Iintenta de nuevo. Rogamos tu comprensión.', 'Error. Algo salio mal')
           // mostrar errores.
         })
     },
@@ -241,7 +241,7 @@ export default {
       this.discoun = ''
       this.term_and_condition = false
       this.$store.dispatch('reset_cart')
-      this.message('success')
+      this.message('success', 'Agradecemos tu confianza.', 'Compra realizada.')
     },
     message (type, message, title) {
       if (type === 'success') {
@@ -259,7 +259,6 @@ export default {
         })
       }
       if (type === 'confirm') {
-        console.log('llegue al confir')
         this.$swal({
           title: 'Estas seguro?',
           text: 'El producto se eliminará del carrito!',

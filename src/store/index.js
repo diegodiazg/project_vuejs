@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VueResources from 'vue-resource'
-// baseURL: `http://mmi.cdhyt.org/api/`,
+// baseURL: `https://mmi.cdhyt.org/api/`,
 // baseURL: `http://mmi.tests/api/`,
 import {HTTP} from './../services'
 
@@ -16,7 +16,7 @@ const store = new Vuex.Store({
     cart: [],
     user: [],
     products: [],
-    URL: 'http://mmi.tests/',
+    URL: 'https://mmi.cdhyt.org/',
     baseURL: '',
     mediaURL: '',
     currency: 'USD',

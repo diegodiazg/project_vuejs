@@ -32,7 +32,7 @@
             </v-list-tile-avatar>
             <v-list-tile-content>
               <v-list-tile-title v-html="it.name"> </v-list-tile-title>
-              <v-list-tile-sub-title v-html="it.brand"></v-list-tile-sub-title>
+              <v-list-tile-sub-title v-html="it.brand_obj.name"></v-list-tile-sub-title>
             </v-list-tile-content>
             <v-list-tile-action>
             </v-list-tile-action>

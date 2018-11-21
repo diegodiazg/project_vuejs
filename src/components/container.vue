@@ -7,16 +7,16 @@
               v-for="(item, key) in products"
               :key="key">
               <v-card>
-                <v-card-media
+                <v-img v-if="item.picture[0]"
                   :src="$store.state.mediaURL+item.picture[0]"
                   height="400px">
-                </v-card-media>
+                </v-img>
                 <v-card-title primary-title>
                   <div>
                     <div class="headline">
                       <router-link :to="'/product/'+item.id"> {{item.name}}</router-link>
                     </div>
-                    <span class="grey--text">{{item.brand}} - Q {{item.price_sell|format_number}}</span>
+                    <span class="grey--text">{{item.brand_obj.name}} - Q {{item.price_sell|format_number}}</span>
                   </div>
                 </v-card-title>
                 <v-card-actions>
@@ -102,7 +102,7 @@ export default {
   },
   computed: {
     url () {
-      return 'http://web.cdhyt.org/'
+      return 'http://puntoventa.diegodiazgt.com/'
     },
     products () {
       return this.$store.state.products

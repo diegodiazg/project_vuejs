@@ -108,6 +108,8 @@ export default {
       return self.images.normal_size.length + 1
     },
     add_item_cart (model) {
+      console.log(model)
+      console.log('dIEGO')
       this.items = this.$store.dispatch('add_item_cart', model)
       this.snackbar = true
       this.text = 'El producto fue agregado.'

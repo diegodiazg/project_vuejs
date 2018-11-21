@@ -1,11 +1,11 @@
 <template>
   <div>
       <v-carousel xs12>
-        <v-carousel-item src="http://mmi.cdhyt.org/media/pictures/2018/02/25/14448991_591277367725736_6139841395852704607_n.jpg"  ></v-carousel-item>
+        <v-carousel-item src="https://puntoventa.diegodiazgt.com/media/pictures/2018/02/25/14448991_591277367725736_6139841395852704607_n.jpg"  ></v-carousel-item>
       </v-carousel>
       <v-card
           class="portrait"
-          img="http://mmi.cdhyt.org/media/pictures/2018/02/25/14448991_591277367725736_6139841395852704607_n.jpg"
+          img="https://puntoventa.diegodiazgt.com/media/pictures/2018/02/25/14448991_591277367725736_6139841395852704607_n.jpg"
           height="300px"
         >
       </v-card>

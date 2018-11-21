@@ -14,11 +14,11 @@
               </div>
             </v-flex>
             <v-flex xs5 sm5 md5 lg5 xl5 >
-              <v-card-media
+              <v-img v-if="item.picture[0]"
                  :src="$store.state.mediaURL+item.picture[0]"
                  height="125px"
                  contain
-              ></v-card-media>
+              ></v-img>
             </v-flex>
           </v-layout>
         </v-container>

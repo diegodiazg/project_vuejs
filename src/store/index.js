@@ -16,7 +16,7 @@ const store = new Vuex.Store({
     cart: [],
     user: [],
     products: [],
-    URL: 'https://mmi.cdhyt.org/',
+    URL: 'https://puntoventa.diegodiazgt.com/',
     baseURL: '',
     mediaURL: '',
     currency: 'USD',
@@ -128,7 +128,7 @@ const store = new Vuex.Store({
   actions: {
     auth_api () {
       if (!localStorage.getItem('token')) {
-        Vue.http.post(this.state.URL + 'api-token-auth/', {'email': 'admin@admin.com', 'password': 'qwerty123'}
+        Vue.http.post(this.state.URL + 'api-token-auth/', {'email': 'ylopez@mmi.com.gt', 'password': 'rT4u=t5<'}
         ).then(result => {
           localStorage.setItem('token', result.body.token)
         }, error => {
